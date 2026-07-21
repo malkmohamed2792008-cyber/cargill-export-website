@@ -5,6 +5,7 @@ import WhyChooseUs from "@/components/home/WhyChooseUs"
 import Statistics from "@/components/home/Statistics"
 import ExportProcess from "@/components/home/ExportProcess"
 import IndustriesWeServe from "@/components/home/IndustriesWeServe"
+import CustomerLogos from "@/components/home/CustomerLogos"
 import Testimonials from "@/components/home/Testimonials"
 import CTA from "@/components/home/CTA"
 
@@ -18,6 +19,7 @@ export default function Home() {
       <Statistics />
       <ExportProcess />
       <IndustriesWeServe />
+      <CustomerLogos />
       <Testimonials />
       <CTA />
     </>

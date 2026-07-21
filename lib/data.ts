@@ -22,6 +22,7 @@ export const navLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
+  { label: "Products", href: "/products" },
   { label: "Contact", href: "/contact" },
 ]
 
@@ -303,6 +304,11 @@ export const seoData = {
     title: "Our Services - CARGILL | Fresh & Frozen Food Trading",
     description: "Explore our comprehensive services including fresh fruits export, fresh vegetables export, frozen foods, and international logistics support.",
     keywords: "Fresh Fruits Export, Fresh Vegetables Export, Frozen Food Export, Import Services, Logistics Support",
+  },
+  products: {
+    title: "Products - CARGILL | Premium Agricultural & Frozen Food Products",
+    description: "Explore our comprehensive range of premium Egyptian agricultural products including fresh fruits, vegetables, frozen foods, dry goods, and canned products.",
+    keywords: "Fresh Fruits, Fresh Vegetables, Frozen Foods, Dry Foods, Canned Foods, Egyptian Export",
   },
   contact: {
     title: "Contact Us - CARGILL | Get In Touch",
