@@ -43,25 +43,41 @@ function AnimatedCounter({ value, suffix, label, icon }: AnimatedCounterProps) {
   const IconComponent = iconMap[icon] || FaGlobe
 
   return (
-    <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
-      <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
-        {IconComponent && <span className="w-8 h-8 flex items-center justify-center text-accent group-hover:text-primary-dark"><IconComponent className="w-8 h-8" /></span>}
+    <div
+      className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 group hover:-translate-y-1"
+      role="group"
+      aria-labelledby={`stat-${label}`}
+    >
+      <div
+        className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-accent group-hover:scale-110 transition-all duration-300"
+        aria-hidden
+      >
+        {IconComponent && (
+          <span className="w-8 h-8 flex items-center justify-center text-accent group-hover:text-primary-dark" aria-hidden>
+            <IconComponent className="w-8 h-8" />
+          </span>
+        )}
       </div>
-      <span ref={ref} className="font-heading text-4xl md:text-5xl font-bold text-primary block">
-        {displayValue}{suffix}
+
+      <span
+        ref={ref}
+        id={`stat-${label}`}
+        className="font-heading text-4xl md:text-5xl font-bold text-primary block"
+        aria-live="polite"
+      >
+        {displayValue}
+        {suffix}
       </span>
-      <p className="text-foreground-secondary mt-2 font-medium">
-        {label}
-      </p>
+      <p className="text-foreground-secondary mt-2 font-medium">{label}</p>
     </div>
   )
 }
 
 export default function Statistics() {
   return (
-    <section className="section bg-background-alt relative overflow-hidden">
+    <section role="region" aria-label="Statistics" className="section bg-background-alt relative overflow-hidden">
       {/* Background Accent */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-30" aria-hidden>
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
       </div>
@@ -76,12 +92,7 @@ export default function Statistics() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <AnimatedCounter
-                value={stat.value}
-                suffix={stat.suffix}
-                label={stat.label}
-                icon={stat.icon}
-              />
+              <AnimatedCounter value={stat.value} suffix={stat.suffix} label={stat.label} icon={stat.icon} />
             </motion.div>
           ))}
         </div>
