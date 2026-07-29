@@ -15,9 +15,9 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export default function WhyChooseUs() {
   return (
-    <section className="section bg-primary-dark relative overflow-hidden">
+    <section role="region" aria-label="Why choose us" className="section bg-primary-dark relative overflow-hidden">
       {/* Background Accents */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" aria-hidden>
         <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
       </div>
@@ -31,16 +31,9 @@ export default function WhyChooseUs() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <span className="text-accent font-medium uppercase tracking-wider text-sm">
-            Why Choose Us
-          </span>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mt-2 mb-4">
-            Your Trusted Partner in Global Trade
-          </h2>
-          <p className="text-white/70 text-lg leading-relaxed">
-            We combine industry expertise with unwavering commitment to quality
-            and customer satisfaction.
-          </p>
+          <span className="text-accent font-medium uppercase tracking-wider text-sm">Why Choose Us</span>
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mt-2 mb-4">Your Trusted Partner in Global Trade</h2>
+          <p className="text-white/70 text-lg leading-relaxed">We combine industry expertise with unwavering commitment to quality and customer satisfaction.</p>
         </motion.div>
 
         {/* Features Grid */}
@@ -48,26 +41,21 @@ export default function WhyChooseUs() {
           {whyChooseUs.map((item, index) => {
             const IconComponent = iconMap[item.icon] || FaTrophy
             return (
-              <motion.div
+              <motion.article
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/15 transition-all duration-300 group hover:-translate-y-2"
+                aria-labelledby={`feature-title-${index}`}
               >
-                <div className="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-primary-dark transition-all duration-300">
-                  <span className="w-8 h-8 flex items-center justify-center text-accent group-hover:text-primary-dark">
-                    <IconComponent className="w-8 h-8" />
-                  </span>
+                <div className="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-primary-dark transition-all duration-300" aria-hidden>
+                  <IconComponent className="w-8 h-8 text-accent group-hover:text-primary-dark" aria-hidden />
                 </div>
-                <h3 className="font-heading text-xl font-semibold text-white mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-white/60 text-base leading-relaxed">
-                  {item.description}
-                </p>
-              </motion.div>
+                <h3 id={`feature-title-${index}`} className="font-heading text-xl font-semibold text-white mb-3">{item.title}</h3>
+                <p className="text-white/60 text-base leading-relaxed">{item.description}</p>
+              </motion.article>
             )
           })}
         </div>
