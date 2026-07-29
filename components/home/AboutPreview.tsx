@@ -7,9 +7,9 @@ import { aboutData } from "@/lib/data"
 
 export default function AboutPreview() {
   return (
-    <section className="section bg-white relative overflow-hidden">
+    <section role="region" aria-label="About preview" className="section bg-white relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-5" aria-hidden>
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/20 to-transparent" />
       </div>
 
@@ -22,6 +22,7 @@ export default function AboutPreview() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="relative"
+            aria-hidden
           >
             <div className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
               <Image
@@ -29,12 +30,13 @@ export default function AboutPreview() {
                 alt="Fresh fruits and vegetables"
                 fill
                 className="object-cover"
+                priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/40 to-transparent" aria-hidden />
             </div>
             {/* Decorative Elements */}
-            <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-accent rounded-2xl -z-10" />
-            <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary rounded-2xl -z-10" />
+            <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-accent rounded-2xl -z-10" aria-hidden />
+            <div className="absolute -top-8 -left-8 w-32 h-32 bg-primary rounded-2xl -z-10" aria-hidden />
           </motion.div>
 
           {/* Content */}
@@ -77,7 +79,7 @@ export default function AboutPreview() {
               </div>
             </div>
 
-            <Link href="/about" className="btn-primary inline-block">
+            <Link href="/about" className="btn btn-accent inline-block" aria-label="Learn more about Cargill">
               Learn More About Us
             </Link>
           </motion.div>
