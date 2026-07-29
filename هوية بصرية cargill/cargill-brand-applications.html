@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Cargill — Brand Applications &amp; Final Specs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-grove:#263D2C; --fresh-leaf:#6B8E4E; --sun-citrus:#E2932E; --crate-brown:#8B5E34;
+    --paper-husk:#F6F1E4; --ink:#211F1A; --stone:#DCD5C0; --stone-dark:#B9AF92; --white:#FFFDF8; --danger:#B6472F;
+    --radius-s:4px; --radius-m:10px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:40px; --space-6:64px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper-husk); color:var(--ink); font-family:'Cairo',sans-serif; line-height:1.6;}
+  .l-wrap{max-width:1160px; margin:0 auto; padding:0 var(--space-4);}
+  .l-section{padding:var(--space-6) 0; border-bottom:1px dashed var(--stone-dark);}
+  .l-section:last-child{border-bottom:none;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; direction:ltr; text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:var(--crate-brown); display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--crate-brown);}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; color:var(--deep-grove); margin:0 0 8px;}
+  h2{font-size:28px;}
+  p{max-width:720px; color:#4a463c;}
+  .muted{color:#6b6656; font-size:13.5px; margin-top:6px;}
+  .hero{background:var(--deep-grove); color:var(--paper-husk); padding:var(--space-6) 0; border-bottom:6px solid var(--sun-citrus); text-align:center;}
+  .hero h1{color:var(--white); font-size:32px;}
+  .hero p{color:#cfd9c8; margin:0 auto;}
+  .flag{background:#fdf1dd; border-inline-start:4px solid var(--sun-citrus); padding:12px 16px; border-radius:6px; font-size:13.5px; color:#7a4f0e; margin-top:var(--space-3); max-width:760px;}
+  .flag b{color:#5c3c0a;}
+  .u-row{display:flex; gap:var(--space-4); flex-wrap:wrap; margin-top:var(--space-4); align-items:flex-start;}
+  .u-label-sm{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; color:#847e6a; display:block; margin-bottom:8px;}
+
+  table{width:100%; border-collapse:collapse; margin-top:var(--space-3); font-size:13.5px; background:var(--white);}
+  th,td{padding:9px 12px; text-align:right; border-bottom:1px solid var(--stone);}
+  th{background:var(--deep-grove); color:var(--white); font-size:11px;}
+  td.mono{font-family:'IBM Plex Mono',monospace; direction:ltr; text-align:left; color:#6b6656;}
+
+  /* ===== BUSINESS CARD (85x55mm) ===== */
+  .biz-card{width:340px; height:220px; border-radius:8px; position:relative; overflow:hidden; box-shadow:0 8px 20px rgba(33,31,26,.15);}
+  .biz-front{background:var(--deep-grove); color:var(--paper-husk); display:flex; flex-direction:column; justify-content:center; padding:24px;}
+  .biz-front .logo{font-family:'Fraunces'; font-weight:600; font-size:22px; color:var(--white);}
+  .biz-front .role{font-size:11px; color:var(--sun-citrus); margin-top:4px; letter-spacing:.04em; font-family:'IBM Plex Mono'; direction:ltr;}
+  .biz-back{background:var(--white); padding:24px; display:flex; flex-direction:column; justify-content:center; gap:6px;}
+  .biz-back .name{font-family:'Fraunces'; font-weight:600; font-size:17px; color:var(--deep-grove);}
+  .biz-back .info{font-family:'IBM Plex Mono'; direction:ltr; font-size:11px; color:#6b6656;}
+  .biz-back .stamp-mini{position:absolute; bottom:16px; left:16px; width:40px; height:40px; border:1.5px dashed var(--sun-citrus); border-radius:50%;}
+
+  /* ===== LETTERHEAD (A4 proportion, cropped) ===== */
+  .letterhead{width:300px; height:424px; background:var(--white); box-shadow:0 8px 20px rgba(33,31,26,.12); position:relative; padding:20px;}
+  .letterhead .lh-top{display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid var(--deep-grove); padding-bottom:12px;}
+  .letterhead .lh-logo{font-family:'Fraunces'; font-weight:600; color:var(--deep-grove); font-size:14px;}
+  .letterhead .lh-contact{font-family:'IBM Plex Mono'; direction:ltr; font-size:8px; color:#847e6a; text-align:left;}
+  .letterhead .lh-body{margin-top:16px;}
+  .letterhead .lh-line{height:5px; background:var(--stone); border-radius:2px; margin-bottom:8px;}
+  .letterhead .lh-footer{position:absolute; bottom:16px; right:20px; left:20px; border-top:1px solid var(--stone); padding-top:8px; font-family:'IBM Plex Mono'; direction:ltr; font-size:7px; color:#a29c86; text-align:center;}
+
+  /* ===== ENVELOPE (DL 220x110mm) ===== */
+  .envelope{width:340px; height:170px; background:var(--white); box-shadow:0 8px 20px rgba(33,31,26,.12); padding:16px; position:relative;}
+  .envelope .env-logo{font-family:'Fraunces'; font-weight:600; color:var(--deep-grove); font-size:13px;}
+  .envelope .env-addr{position:absolute; bottom:24px; left:130px; font-family:'Cairo'; font-size:11px; color:var(--ink);}
+  .envelope .env-stamp{position:absolute; top:14px; left:14px; width:30px; height:30px; border:1.5px dashed var(--sun-citrus); border-radius:50%;}
+
+  /* ===== INVOICE ===== */
+  .invoice{width:320px; background:var(--white); box-shadow:0 8px 20px rgba(33,31,26,.12); padding:20px;}
+  .invoice .inv-head{display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--deep-grove); padding-bottom:10px;}
+  .invoice .inv-logo{font-family:'Fraunces'; font-weight:600; color:var(--deep-grove); font-size:14px;}
+  .invoice .inv-num{font-family:'IBM Plex Mono'; direction:ltr; font-size:10px; color:#6b6656;}
+  .invoice table{font-size:10px; margin-top:12px;}
+  .invoice th{font-size:9px; padding:6px 8px;}
+  .invoice td{padding:6px 8px;}
+  .invoice .inv-total{text-align:left; font-family:'IBM Plex Mono'; direction:ltr; font-weight:700; color:var(--deep-grove); margin-top:8px; font-size:13px;}
+
+  /* ===== EMAIL SIGNATURE ===== */
+  .email-sig{width:360px; background:var(--white); box-shadow:0 8px 20px rgba(33,31,26,.10); padding:16px; display:flex; gap:14px; align-items:center;}
+  .email-sig .sig-divider{width:2px; align-self:stretch; background:var(--sun-citrus);}
+  .email-sig .sig-name{font-family:'Fraunces'; font-weight:600; color:var(--deep-grove); font-size:14px;}
+  .email-sig .sig-role{font-size:11px; color:#6b6656;}
+  .email-sig .sig-contact{font-family:'IBM Plex Mono'; direction:ltr; font-size:9.5px; color:#847e6a; margin-top:4px; line-height:1.6;}
+
+  /* ===== PACKAGING — CARTON ===== */
+  .carton{width:340px; height:240px; background:var(--paper-husk); border:3px solid var(--crate-brown); border-radius:4px; position:relative; padding:16px;}
+  .carton .carton-title{font-family:'Fraunces'; font-weight:600; font-size:20px; color:var(--deep-grove); text-align:center;}
+  .carton .carton-sub{text-align:center; font-family:'IBM Plex Mono'; direction:ltr; font-size:10px; color:var(--crate-brown); margin-top:2px;}
+  .carton .carton-stamp{position:absolute; top:14px; left:14px; width:52px; height:52px; border:2px dashed var(--sun-citrus); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono'; direction:ltr; font-size:8px; text-align:center; color:var(--sun-citrus); font-weight:700;}
+  .carton .carton-barcode{position:absolute; bottom:14px; left:14px; display:flex; gap:1px;}
+  .carton .carton-barcode div{width:2px; height:24px; background:var(--ink);}
+  .carton .carton-origin{position:absolute; bottom:14px; right:14px; text-align:left; font-family:'IBM Plex Mono'; direction:ltr; font-size:8px; color:#4a463c;}
+  .carton .carton-net{position:absolute; top:14px; right:14px; font-family:'IBM Plex Mono'; direction:ltr; font-size:9px; color:var(--deep-grove); font-weight:700; text-align:left;}
+
+  /* ===== PALLET STICKER ===== */
+  .pallet-sticker{width:260px; background:var(--white); border:2px solid var(--deep-grove); border-radius:4px; padding:12px;}
+  .pallet-sticker .row-p{display:flex; justify-content:space-between; font-family:'IBM Plex Mono'; direction:ltr; font-size:10px; padding:4px 0; border-bottom:1px dashed var(--stone);}
+
+  /* ===== SOCIAL ===== */
+  .social-post{width:220px; height:220px; background:var(--deep-grove); display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--paper-husk); text-align:center; padding:20px; position:relative; overflow:hidden;}
+  .social-post .sp-logo{position:absolute; top:14px; right:14px; font-family:'Fraunces'; font-size:11px; font-weight:600;}
+  .social-post h3{color:var(--white); font-size:20px; margin:0;}
+  .social-post p{color:var(--sun-citrus); font-size:11px; margin-top:6px; font-family:'IBM Plex Mono'; direction:ltr;}
+  .social-story{width:130px; height:220px; background:linear-gradient(180deg,var(--fresh-leaf),var(--deep-grove)); display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:var(--white); padding:14px; text-align:center;}
+  .social-story .st-txt{font-size:13px; font-weight:700; font-family:'Fraunces';}
+
+  /* ===== VEHICLE ===== */
+  .truck-side{width:420px; height:150px; background:var(--white); border:2px solid var(--stone-dark); border-radius:8px; position:relative; overflow:hidden;}
+  .truck-side .cab{position:absolute; left:0; top:0; bottom:0; width:70px; background:var(--deep-grove);}
+  .truck-side .box{position:absolute; left:70px; right:0; top:0; bottom:0; background:var(--paper-husk); display:flex; align-items:center; justify-content:center; flex-direction:column;}
+  .truck-side .box .t-logo{font-family:'Fraunces'; font-weight:600; color:var(--deep-grove); font-size:22px;}
+  .truck-side .box .t-tag{font-family:'IBM Plex Mono'; direction:ltr; font-size:9px; color:var(--crate-brown); margin-top:2px;}
+  .truck-side .wheel{position:absolute; bottom:-8px; width:20px; height:20px; border-radius:50%; background:var(--ink);}
+
+  /* ===== PRESENTATION SLIDE ===== */
+  .slide{width:360px; height:202px; background:var(--deep-grove); position:relative; overflow:hidden; box-shadow:0 8px 20px rgba(33,31,26,.15);}
+  .slide-title{display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--white); text-align:center;}
+  .slide-title h3{color:var(--white); font-size:22px; margin:0;}
+  .slide-title p{color:var(--sun-citrus); font-size:11px; font-family:'IBM Plex Mono'; direction:ltr; margin-top:6px;}
+  .slide-content{background:var(--paper-husk); padding:20px;}
+  .slide-content h4{font-family:'Fraunces'; color:var(--deep-grove); font-size:14px; margin:0 0 10px; border-bottom:2px solid var(--sun-citrus); padding-bottom:6px; display:inline-block;}
+  .slide-content .sc-line{height:5px; background:var(--stone); border-radius:2px; margin-bottom:6px; width:80%;}
+
+  .caption{font-family:'IBM Plex Mono'; direction:ltr; font-size:10.5px; color:#847e6a; margin-top:8px; text-align:center;}
+
+  .check-list{list-style:none; padding:0; margin:var(--space-3) 0 0;}
+  .check-list li{display:flex; gap:10px; padding:8px 0; border-bottom:1px solid var(--stone); font-size:13.5px;}
+  .check-list li::before{content:"☐"; color:var(--fresh-leaf); font-size:16px;}
+
+  footer.page-footer{padding:var(--space-5) 0; text-align:center; color:#8a856f; font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="l-wrap">
+    <div class="eyebrow" style="justify-content:center; color:var(--sun-citrus)">CARGILL — FINAL PHASE</div>
+    <h1>التطبيقات والمواصفات النهائية</h1>
+    <p>كل التطبيقات الواقعية اللي أقدر أبنيها فعلاً كمواصفات ومقاسات حقيقية — من كارت الشخصي لحد كرتونة التصدير — بنفس الهوية بالظبط.</p>
+  </div>
+</div>
+
+<div class="l-wrap">
+
+  <!-- ============ STATIONERY ============ -->
+  <section class="l-section">
+    <div class="eyebrow">STATIONERY</div>
+    <h2>المطبوعات المكتبية</h2>
+
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Business Card — Front · 85×55mm</span>
+        <div class="biz-card biz-front">
+          <div class="logo">Cargill</div>
+          <div class="role">FRESH EXPORT TRADING</div>
+        </div>
+        <p class="caption">Deep Grove bg · Fraunces 600 · Sun Citrus label</p>
+      </div>
+      <div>
+        <span class="u-label-sm">Business Card — Back</span>
+        <div class="biz-card biz-back" style="position:relative">
+          <div class="name">أحمد سعيد</div>
+          <div class="info">Export Manager</div>
+          <div class="info">ahmed@cargill.com</div>
+          <div class="info">+20 10 XXX XXXX</div>
+          <div class="stamp-mini"></div>
+        </div>
+        <p class="caption">White bg · اسم بـ Fraunces · بيانات بـ IBM Plex Mono</p>
+      </div>
+    </div>
+
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Letterhead — A4 (مقصوص للعرض)</span>
+        <div class="letterhead">
+          <div class="lh-top">
+            <div class="lh-logo">Cargill</div>
+            <div class="lh-contact">Cairo, Egypt<br>info@cargill.com<br>+20 2 XXXX XXXX</div>
+          </div>
+          <div class="lh-body">
+            <div class="lh-line" style="width:40%"></div>
+            <div class="lh-line" style="width:90%"></div>
+            <div class="lh-line" style="width:85%"></div>
+            <div class="lh-line" style="width:70%"></div>
+          </div>
+          <div class="lh-footer">Cargill Trading Co. · Commercial Reg. XXXXX · Tax ID XXXXXXX</div>
+        </div>
+      </div>
+      <div>
+        <span class="u-label-sm">Envelope — DL · 220×110mm</span>
+        <div class="envelope">
+          <div class="env-logo">Cargill</div>
+          <div class="env-stamp"></div>
+          <div class="env-addr">Importer Name<br>Company<br>City, Country</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Invoice — رأس المستند</span>
+        <div class="invoice">
+          <div class="inv-head">
+            <div class="inv-logo">Cargill</div>
+            <div class="inv-num">INV-0885<br>14 Aug 2026</div>
+          </div>
+          <table>
+            <thead><tr><th>المنتج</th><th>الكمية</th><th>السعر</th></tr></thead>
+            <tbody>
+              <tr><td>برتقال بلدي</td><td>24T</td><td>$XXX</td></tr>
+              <tr><td>مانجو عويس</td><td>12T</td><td>$XXX</td></tr>
+            </tbody>
+          </table>
+          <div class="inv-total">Total: $XX,XXX</div>
+        </div>
+      </div>
+      <div>
+        <span class="u-label-sm">Email Signature</span>
+        <div class="email-sig">
+          <div>
+            <div class="sig-name">أحمد سعيد</div>
+            <div class="sig-role">Export Manager, Cargill</div>
+            <div class="sig-contact">ahmed@cargill.com<br>+20 10 XXX XXXX<br>cargill.com</div>
+          </div>
+          <div class="sig-divider"></div>
+          <div style="font-family:'Fraunces'; color:var(--deep-grove); font-weight:600">Field to Port</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PACKAGING ============ -->
+  <section class="l-section">
+    <div class="eyebrow">PACKAGING SYSTEM</div>
+    <h2>نظام التغليف والتصدير</h2>
+    <div class="flag"><b>ملاحظة:</b> ده Layout ومقاسات دقيقة جاهزة للمطبعة — مش ملف طباعة نهائي (لسه محتاج Proof وقيم CMYK النهائية زي ما اتحدد في Phase 3).</div>
+
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Export Carton — اللوحة الأمامية</span>
+        <div class="carton">
+          <div class="carton-stamp">GRADE<br>A</div>
+          <div class="carton-net">NET WT<br>18 KG</div>
+          <div class="carton-title">CARGILL</div>
+          <div class="carton-sub">BALADI ORANGES</div>
+          <div class="carton-barcode">
+            <div></div><div></div><div style="width:1px"></div><div></div><div></div><div style="width:3px"></div><div></div><div></div><div></div>
+          </div>
+          <div class="carton-origin">PRODUCE OF<br>EGYPT</div>
+        </div>
+        <p class="caption">Kraft/Paper Husk bg · Crate Brown border · Grade stamp أعلى يسار</p>
+      </div>
+
+      <div>
+        <span class="u-label-sm">Pallet Sticker</span>
+        <div class="pallet-sticker">
+          <div class="row-p"><span>PRODUCT</span><span>Baladi Orange</span></div>
+          <div class="row-p"><span>GRADE</span><span>A — Export</span></div>
+          <div class="row-p"><span>NET WEIGHT</span><span>720 KG</span></div>
+          <div class="row-p"><span>PACK DATE</span><span>10-AUG-2026</span></div>
+          <div class="row-p"><span>SHIPMENT</span><span>CGL-1042</span></div>
+          <div class="row-p" style="border:none"><span>DESTINATION</span><span>ROTTERDAM, NL</span></div>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>العنصر</th><th>القاعدة</th></tr></thead>
+      <tbody>
+        <tr><td>Shipping Mark</td><td>اسم الشركة + كود الشحنة + الوجهة بخط IBM Plex Mono، أسود على الكرتونة مباشرة (بدون طباعة ملونة إضافية لتقليل التكلفة)</td></tr>
+        <tr><td>Handling Icons</td><td>أيقونات دولية معيارية (This Way Up، Keep Dry، Temperature Range) — مش من مكتبة كارجيل، دي أيقونات شحن دولية موحدة إجباري استخدامها زي ما هي</td></tr>
+        <tr><td>Barcode</td><td>GS1-128 قياسي، أسود على خلفية فاتحة فقط، مساحة حماية 5mm حول الباركود بدون أي عنصر تاني</td></tr>
+        <tr><td>Master Carton Layout</td><td>الختم الدائري أعلى يسار دائمًا (نفس مكانه في اللوجو سيستم) — يسهل على عامل المخزن يتعرف على الدرجة من نظرة واحدة</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ SOCIAL MEDIA ============ -->
+  <section class="l-section">
+    <div class="eyebrow">SOCIAL MEDIA</div>
+    <h2>قوالب السوشيال ميديا</h2>
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Instagram/LinkedIn Post — 1:1 (1080×1080)</span>
+        <div class="social-post">
+          <div class="sp-logo">Cargill</div>
+          <h3>موسم المانجو بدأ</h3>
+          <p>SHIPPING FROM AUGUST</p>
+        </div>
+      </div>
+      <div>
+        <span class="u-label-sm">Instagram Story — 9:16 (1080×1920)</span>
+        <div class="social-story">
+          <div class="st-txt">تتبع شحنتك لحظة بلحظة</div>
+        </div>
+      </div>
+      <div>
+        <span class="u-label-sm">LinkedIn Cover — 4:1</span>
+        <div style="width:340px; height:85px; background:var(--deep-grove); display:flex; align-items:center; justify-content:center; color:var(--white); font-family:'Fraunces'; font-weight:600; font-size:16px;">Field to Port — Cargill</div>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>المنصة</th><th>القياس</th><th>القاعدة</th></tr></thead>
+      <tbody>
+        <tr><td>Instagram Post</td><td class="mono">1080×1080</td><td>عنوان Fraunces أبيض + خط IBM Plex Mono للتفاصيل بالإنجليزي فقط</td></tr>
+        <tr><td>Instagram Story</td><td class="mono">1080×1920</td><td>النص دايمًا في الثلث السفلي — فوق مساحة الـ UI بتاعة إنستجرام</td></tr>
+        <tr><td>LinkedIn Cover</td><td class="mono">1584×396</td><td>محتوى مؤسسي بس، بدون عروض أو تخفيضات</td></tr>
+        <tr><td>Facebook/X Post</td><td class="mono">1200×630</td><td>نفس قواعد Instagram Post</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ VEHICLE BRANDING ============ -->
+  <section class="l-section">
+    <div class="eyebrow">VEHICLE BRANDING</div>
+    <h2>هوية الشاحنات</h2>
+    <div class="truck-side">
+      <div class="cab"></div>
+      <div class="box">
+        <div class="t-logo">Cargill</div>
+        <div class="t-tag">FIELD TO PORT</div>
+      </div>
+      <div class="wheel" style="left:35px"></div>
+      <div class="wheel" style="left:280px"></div>
+      <div class="wheel" style="left:340px"></div>
+    </div>
+    <table>
+      <thead><tr><th>العنصر</th><th>القاعدة</th></tr></thead>
+      <tbody>
+        <tr><td>اللوجو</td><td>منتصف صندوق الشاحنة، عرضه = ثلث عرض الصندوق تقريبًا</td></tr>
+        <tr><td>الكابينة</td><td>Deep Grove دايمًا، بدون لوجو عليها (اللوجو على الصندوق بس عشان يبان من بعيد)</td></tr>
+        <tr><td>رقم التواصل</td><td>يتحط أسفل الصندوق بخط IBM Plex Mono، مش جزء من التصميم الرئيسي</td></tr>
+        <tr><td>الفوركليفت/اليونيفورم</td><td>نفس المنطق: Deep Grove أساسي + شارة صغيرة بدل اللوجو الكامل على الأسطح الصغيرة</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ PRESENTATION ============ -->
+  <section class="l-section">
+    <div class="eyebrow">PRESENTATION SYSTEM</div>
+    <h2>قالب العروض التقديمية</h2>
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Title Slide — 16:9</span>
+        <div class="slide"><div class="slide-title"><h3>Cargill</h3><p>COMPANY PROFILE 2026</p></div></div>
+      </div>
+      <div>
+        <span class="u-label-sm">Content Slide — 16:9</span>
+        <div class="slide slide-content">
+          <h4>لماذا كارجيل</h4>
+          <div class="sc-line"></div><div class="sc-line" style="width:65%"></div><div class="sc-line" style="width:75%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PHOTOGRAPHY ============ -->
+  <section class="l-section">
+    <div class="eyebrow">PHOTOGRAPHY ART DIRECTION</div>
+    <h2>توجيه التصوير</h2>
+    <p>مفيش صور فعلية هنا — ده توجيه نصي لأي مصوّر أو مصدر صور يشتغل مع البراند مستقبلًا.</p>
+    <table>
+      <thead><tr><th>العنصر</th><th>القاعدة</th></tr></thead>
+      <tbody>
+        <tr><td>الإضاءة</td><td>طبيعية، وقت الصبح الباكر أو قبل الغروب — أبدًا فلاش مباشر أو إضاءة استوديو صناعية</td></tr>
+        <tr><td>التكوين</td><td>زوايا واقعية من مستوى العين أو العامل، مش زوايا درامية من فوق — الصدق أهم من الإبهار</td></tr>
+        <tr><td>الألوان</td><td>ألوان طبيعية غير مُشبّعة زيادة — تدرّج دافئ خفيف يقرب من باليت البراند بدون فلتر واضح</td></tr>
+        <tr><td>الأشخاص</td><td>عمال ومزارعون حقيقيون في سياق عملهم، مش موديلز بابتسامة تسويقية مصطنعة</td></tr>
+        <tr><td>المصانع/المخازن</td><td>نظام وترتيب واضح في الكادر — الفوضى بتتعارض مع رسالة "الدقة" في هوية الصوت</td></tr>
+        <tr><td>الموانئ/الحاويات</td><td>مقاييس واسعة (Wide shots) بتوضح الحجم الفعلي للعملية، مش لقطات مقرّبة معزولة</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ MOTION ============ -->
+  <section class="l-section">
+    <div class="eyebrow">MOTION GUIDELINES</div>
+    <h2>قواعد الحركة</h2>
+    <table>
+      <thead><tr><th>الحالة</th><th>Duration</th><th>Easing</th></tr></thead>
+      <tbody>
+        <tr><td>Hover (زرار/كارت)</td><td class="mono">150ms</td><td class="mono">ease-out</td></tr>
+        <tr><td>Fade in (Toast/Modal)</td><td class="mono">200ms</td><td class="mono">ease-out</td></tr>
+        <tr><td>Fade out</td><td class="mono">150ms</td><td class="mono">ease-in</td></tr>
+        <tr><td>Drawer slide</td><td class="mono">250ms</td><td class="mono">cubic-bezier(.2,.8,.2,1)</td></tr>
+        <tr><td>Loading skeleton</td><td class="mono">1400ms loop</td><td class="mono">ease-in-out</td></tr>
+        <tr><td>Page transition</td><td class="mono">مفيش — انتقال مباشر بدون حركة، السرعة أهم من التأثير في أداة عمل يومية</td><td class="mono">—</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">القاعدة العامة: أي حركة أطول من 300ms في أداة تشغيلية (مش موقع تسويقي) بتتحس بطيئة، مش أنيقة.</p>
+  </section>
+
+  <!-- ============ ACCESSIBILITY CHECKLIST ============ -->
+  <section class="l-section">
+    <div class="eyebrow">ACCESSIBILITY CHECKLIST</div>
+    <h2>قائمة فحص الوصول</h2>
+    <ul class="check-list">
+      <li>كل نص أساسي بتباين ≥4.5:1 مع خلفيته (راجع جدول Phase 4)</li>
+      <li>كل عنصر تفاعلي عليه Focus Ring واضح (Fresh Leaf 3px — راجع Phase 4)</li>
+      <li>مساحة اللمس ≥44×44px لأي زرار أو أيقونة قابلة للضغط على الموبايل</li>
+      <li>كل صورة/أيقونة وظيفية عندها Alt Text أو aria-label</li>
+      <li>الموقع/التطبيق قابل للتصفح بالكيبورد بالكامل من غير فأرة</li>
+      <li>الألوان مش الوسيلة الوحيدة لنقل المعنى (زي حالة الشحنة) — لازم يترافق مع نص أو أيقونة</li>
+      <li>النماذج (Forms) بتوضح رسالة الخطأ نصيًا جنب الحقل، مش بلون الحدود بس</li>
+    </ul>
+  </section>
+
+  <!-- ============ FIGMA STRUCTURE ============ -->
+  <section class="l-section">
+    <div class="eyebrow">FIGMA STRUCTURE</div>
+    <h2>تنظيم مقترح لملف Figma</h2>
+    <div class="flag"><b>ملاحظة صريحة:</b> معنديش وصول لـ Figma فعليًا، فده هيكل تنظيمي مقترح تطبّقه بنفسك أو مصمم يشتغل بيه — مش ملف Figma حقيقي.</div>
+    <table>
+      <thead><tr><th>الصفحة</th><th>المحتوى</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">00 Cover</td><td style="direction:rtl">غلاف المستند + فهرس</td></tr>
+        <tr><td class="mono">01 Foundation</td><td style="direction:rtl">Brand Strategy (Phase 2)</td></tr>
+        <tr><td class="mono">02 Logo</td><td style="direction:rtl">نظام اللوجو (Phase 3)</td></tr>
+        <tr><td class="mono">03 Tokens</td><td style="direction:rtl">الألوان والطباعة (Phase 4) — كـ Figma Variables فعلية</td></tr>
+        <tr><td class="mono">04 Grid</td><td style="direction:rtl">الجريد وقاعدة التسمية (Phase 5)</td></tr>
+        <tr><td class="mono">05 Components</td><td style="direction:rtl">مكتبة المكوّنات (Phase 6) — كـ Figma Components مع Variants</td></tr>
+        <tr><td class="mono">06 Icons</td><td style="direction:rtl">مكتبة الأيقونات (Phase 7)</td></tr>
+        <tr><td class="mono">07 Applications</td><td style="direction:rtl">هذا الملف — Stationery/Packaging/Social/Vehicle</td></tr>
+        <tr><td class="mono">08 Templates</td><td style="direction:rtl">Dashboard كامل، صفحات المنتج، صفحات الموقع</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+<footer class="page-footer">Cargill Brand Applications &amp; Final Specs · v1.0</footer>
+</body>
+</html>

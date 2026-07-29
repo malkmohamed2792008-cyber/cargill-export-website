@@ -1,0 +1,350 @@
+# PROJECT CONTEXT — CARGILL Export Website
+
+This message is the complete context for my project. Please read it carefully before making any changes.
+
+---
+
+# Project Overview
+
+Project Name:
+CARGILL Export Website
+
+Project Type:
+Premium Corporate Export Company Website
+
+Purpose:
+A modern, enterprise-grade website for an Egyptian company exporting fresh fruits, fresh vegetables, frozen foods, dry foods, and canned foods worldwide.
+
+Technology Stack:
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
+- Prisma ORM
+- PostgreSQL
+- ESLint
+- Git
+- GitHub
+
+Repository:
+
+https://github.com/malkmohamed2792008-cyber/cargill-export-website
+
+---
+
+# Official Documentation
+
+The project is entirely driven by these two documents:
+
+- PROJECT_REQUIREMENTS.md
+- PROJECT_ENHANCEMENTS.md
+
+These documents are the single source of truth.
+
+Rules:
+
+- Anything documented but missing from the project must be implemented.
+- Anything implemented incorrectly must be fixed.
+- Never ignore the documentation.
+
+---
+
+# Current Project Status
+
+The following sections are already implemented:
+
+✅ Home Page
+
+✅ About Page
+
+✅ Contact Page
+
+✅ Services Page
+
+✅ Products Landing Page
+
+✅ Product Details Pages
+
+✅ Categories
+
+✅ Product Search
+
+✅ Product Filters
+
+✅ Responsive Design
+
+✅ SEO Metadata
+
+✅ Robots
+
+✅ Sitemap
+
+✅ Structured Data
+
+✅ Product Quote Form
+
+✅ Contact Form
+
+✅ Google Maps Embed
+
+✅ TypeScript
+
+✅ ESLint
+
+✅ Production Build
+
+---
+
+# Product Catalog
+
+Current catalog contains:
+
+- 152 Products
+- 5 Categories
+- 23 Subcategories
+
+The source data currently exists in:
+
+lib/products.ts
+
+---
+
+# Prisma Migration Progress
+
+The project is currently being migrated from static data to PostgreSQL using Prisma.
+
+Already completed:
+
+✅ Prisma Schema
+
+✅ Prisma Models
+
+✅ Initial Migration
+
+✅ Seed Script
+
+✅ Repository Layer
+
+✅ Mapping Layer
+
+✅ Prisma Client
+
+The runtime database migration is NOT fully completed yet.
+
+---
+
+# Prisma Models
+
+The following models already exist:
+
+- Product
+- ProductCategory
+- ProductSubcategory
+- ProductPackaging
+- ProductCartonSpecification
+- ProductStorage
+- ProductSpecification
+- ProductExportSeason
+- ProductExportCountry
+- ProductImage
+- Certification
+
+---
+
+# Validation Status
+
+Latest verification:
+
+✅ npm run build
+
+✅ npm run lint
+
+✅ npx tsc --noEmit
+
+Everything passes successfully.
+
+---
+
+# SEO
+
+Already implemented:
+
+- Canonical URLs
+- Open Graph
+- Twitter Cards
+- Robots
+- Sitemap
+- Breadcrumb Schema
+- Product Structured Data
+
+---
+
+# Recently Completed Improvements
+
+Recently fixed:
+
+- Product Search
+- Category Filtering
+- Related Products
+- Product Metadata
+- Google Maps
+- Contact Form Validation
+- Quote Autofill
+- Subcategory Counts
+- Product Image URLs
+
+---
+
+# Git
+
+The project is connected to GitHub.
+
+Git is fully configured.
+
+Repository synchronization is working correctly.
+
+---
+
+# PostgreSQL
+
+PostgreSQL 18 is installed locally.
+
+The PostgreSQL server is running.
+
+Access to the postgres user has been restored.
+
+The password has been reset successfully.
+
+Prisma migration and seeding still need to be completed against the live database.
+
+---
+
+# Main Objective
+
+DO NOT rebuild the project.
+
+DO NOT start from scratch.
+
+Continue from the current project state.
+
+Follow the documentation exactly.
+
+If something is documented but missing:
+
+→ Implement it.
+
+If something is broken:
+
+→ Fix it.
+
+If you find code smells:
+
+→ Refactor them professionally.
+
+If you identify performance issues:
+
+→ Optimize them.
+
+If the architecture can be improved without changing functionality:
+
+→ Improve it.
+
+---
+
+# Preserve
+
+Do NOT change:
+
+- Existing UI Design
+- Existing Layout
+- Existing URLs
+- Existing SEO
+- Existing Product Data
+- Existing User Experience
+
+Unless absolutely required to fix a bug.
+
+---
+
+# Development Workflow
+
+Before modifying anything:
+
+1. Read all relevant files.
+2. Understand the existing architecture.
+3. Understand the documentation.
+4. Make only the necessary changes.
+5. Validate everything.
+
+Always run:
+
+npm run lint
+
+npx tsc --noEmit
+
+npm run build
+
+Fix every issue before finishing.
+
+---
+
+# Final Report
+
+At the end of every task provide a complete report including:
+
+- Files Modified
+- Files Added
+- Files Removed
+- Bugs Fixed
+- Improvements Made
+- Documentation Compliance
+- Validation Results
+- Remaining Tasks
+- Potential Risks
+- Recommendations
+
+---
+
+# Coding Standards
+
+Use professional enterprise-level code.
+
+Follow:
+
+- SOLID Principles
+- DRY
+- KISS
+- Clean Architecture
+- Type Safety
+- Reusable Components
+- Modular Design
+- Server Components whenever appropriate
+- Performance Optimization
+- Accessibility
+- SEO Best Practices
+- Production Ready Code
+
+Never introduce technical debt.
+
+Never duplicate logic.
+
+Prefer reusable abstractions.
+
+---
+
+# Important Instructions
+
+Always assume this is an enterprise production project.
+
+Never replace existing functionality unless it is objectively better and fully compatible.
+
+Never remove working features.
+
+Always preserve backward compatibility.
+
+When uncertain, inspect the project before making assumptions.
+
+Continue development from the current implementation—not from a fresh template.
+
+Think like a Senior Software Architect, Senior Full-Stack Engineer, and Technical Lead reviewing and improving a production-grade application.

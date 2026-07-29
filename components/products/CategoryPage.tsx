@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ProductCategory, Product } from "@/lib/products"
 import { FiArrowRight, FiArrowLeft } from "react-icons/fi"
+import ProductCard from "./ProductCard"
 
 interface CategoryPageProps {
   category: ProductCategory
@@ -37,13 +38,13 @@ export default function CategoryPage({ category, products }: CategoryPageProps) 
             className="max-w-3xl"
           >
             {/* Breadcrumb */}
-            <div className="flex items-center text-white/80 text-sm mb-4">
+            <nav className="flex items-center text-white/80 text-sm mb-4" aria-label="Breadcrumb">
               <Link href="/products" className="hover:text-white transition-colors">
                 Products
               </Link>
               <FiArrowRight className="mx-2" />
               <span className="text-white">{category.name}</span>
-            </div>
+            </nav>
 
             {/* Title */}
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -144,45 +145,13 @@ export default function CategoryPage({ category, products }: CategoryPageProps) 
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <Link href={`/products/${product.slug}`} className="group block">
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 h-full">
-                      {/* Product Image */}
-                      <div className="relative h-48 overflow-hidden">
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                        {product.isBestSelling && (
-                          <div className="absolute top-3 right-3 bg-accent text-primary-dark text-xs font-bold px-3 py-1 rounded-full">
-                            Best Seller
-                          </div>
-                        )}
-                        {product.isSeasonal && (
-                          <div className="absolute top-3 left-3 bg-secondary text-white text-xs font-bold px-3 py-1 rounded-full">
-                            In Season
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Product Info */}
-                      <div className="p-5">
-                        <h3 className="font-heading text-lg font-semibold text-primary-dark mb-2 group-hover:text-primary transition-colors">
-                          {product.name}
-                        </h3>
-                        <p className="text-gray-600 text-sm line-clamp-2 mb-4">
-                          {product.shortDescription}
-                        </p>
-
-                        {/* View Details Button */}
-                        <div className="flex items-center text-primary font-medium group-hover:text-accent transition-colors">
-                          <span>View Details</span>
-                          <FiArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+                  <ProductCard
+                    product={product}
+                    variant="category"
+                    showBestSellerBadge={product.isBestSelling}
+                    showSeasonalBadge={product.isSeasonal}
+                    seasonalBadgeLabel="In Season"
+                  />
                 </motion.div>
               ))}
             </div>

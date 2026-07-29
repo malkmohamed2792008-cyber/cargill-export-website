@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Cargill — Grid &amp; Naming Convention</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-grove:#263D2C; --fresh-leaf:#6B8E4E; --sun-citrus:#E2932E; --crate-brown:#8B5E34;
+    --paper-husk:#F6F1E4; --ink:#211F1A; --stone:#DCD5C0; --stone-dark:#B9AF92; --white:#FFFDF8; --danger:#B6472F;
+    --radius-m:10px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:40px; --space-6:64px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper-husk); color:var(--ink); font-family:'Cairo',sans-serif; line-height:1.6;}
+  .l-wrap{max-width:1160px; margin:0 auto; padding:0 var(--space-4);}
+  .l-section{padding:var(--space-6) 0; border-bottom:1px dashed var(--stone-dark);}
+  .l-section:last-child{border-bottom:none;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; direction:ltr; text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:var(--crate-brown); display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--crate-brown);}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; color:var(--deep-grove); margin:0 0 8px;}
+  h2{font-size:30px;}
+  p{max-width:700px; color:#4a463c;}
+  .muted{color:#6b6656; font-size:13.5px;}
+  .hero{background:var(--deep-grove); color:var(--paper-husk); padding:var(--space-6) 0; border-bottom:6px solid var(--sun-citrus); text-align:center;}
+  .hero h1{color:var(--white); font-size:32px;}
+  .hero p{color:#cfd9c8; margin:0 auto;}
+  .flag{background:#fdf1dd; border-inline-start:4px solid var(--sun-citrus); padding:12px 16px; border-radius:6px; font-size:13.5px; color:#7a4f0e; margin-top:var(--space-3); max-width:760px;}
+  .flag b{color:#5c3c0a;}
+  .flag.danger{background:#fbe8e2; border-color:var(--danger); color:#8a2f1c;}
+  .flag.danger b{color:#6b2416;}
+
+  table{width:100%; border-collapse:collapse; margin-top:var(--space-3); font-size:13.5px; background:var(--white);}
+  th,td{padding:9px 12px; text-align:right; border-bottom:1px solid var(--stone);}
+  th{background:var(--deep-grove); color:var(--white); font-size:11px;}
+  td.mono{font-family:'IBM Plex Mono',monospace; direction:ltr; text-align:left; color:#6b6656;}
+
+  /* ---- REAL 12-COL GRID (this page uses it, not just shows it) ---- */
+  .c-grid{display:grid; grid-template-columns:repeat(12,1fr); gap:16px; margin-top:var(--space-4);}
+  .c-grid > *{min-width:0;}
+  .col-4{grid-column:span 4;}
+  .col-5{grid-column:span 5;}
+  .col-7{grid-column:span 7;}
+  .col-8{grid-column:span 8;}
+  .col-12{grid-column:span 12;}
+  @media (max-width:1023px){
+    .c-grid{grid-template-columns:repeat(8,1fr);}
+    .col-4,.col-5,.col-7,.col-8{grid-column:span 8;}
+  }
+  @media (max-width:767px){
+    .c-grid{grid-template-columns:repeat(4,1fr);}
+    .col-4,.col-5,.col-7,.col-8,.col-12{grid-column:span 4;}
+  }
+  .c-card{background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:var(--space-3);}
+  .c-card h3{font-size:15px; margin-bottom:6px;}
+  .c-card .kpi{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:28px; color:var(--deep-grove); font-weight:500;}
+  .grid-outline{outline:1px dashed rgba(107,142,78,.5); outline-offset:-1px;}
+
+  .col-strip{display:grid; grid-template-columns:repeat(12,1fr); gap:2px; margin-top:var(--space-2);}
+  .col-tick{height:6px; background:var(--fresh-leaf); border-radius:2px; opacity:.4;}
+
+  /* ---- ELEVATION ---- */
+  .elev-row{display:flex; gap:var(--space-3); flex-wrap:wrap; margin-top:var(--space-4);}
+  .elev-box{width:130px; height:80px; background:var(--white); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; color:#6b6656; text-align:center; flex-direction:column; gap:4px;}
+
+  /* ---- NAMING ---- */
+  .naming-table td.mono, .naming-table th{font-family:'IBM Plex Mono',monospace; direction:ltr;}
+  .naming-table td:first-child{font-weight:700;}
+  .badge-status{display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; font-family:'IBM Plex Mono',monospace; direction:ltr;}
+  .badge-fix{background:#fbe8e2; color:#8a2f1c;}
+  .badge-new{background:#e6efd9; color:#3d5a2a;}
+
+  /* ---- ATOMIC ---- */
+  .atomic-row{display:grid; grid-template-columns:110px 1fr; gap:var(--space-3); padding:14px 0; border-top:1px solid var(--stone); align-items:start;}
+  .atomic-row:last-child{border-bottom:1px solid var(--stone);}
+  .atomic-label{font-family:'IBM Plex Mono',monospace; direction:ltr; font-weight:700; color:var(--deep-grove); font-size:13px;}
+  .atomic-items{display:flex; gap:6px; flex-wrap:wrap;}
+  .atomic-chip{background:var(--stone); font-size:12px; padding:4px 10px; border-radius:14px;}
+
+  footer{padding:var(--space-5) 0; text-align:center; color:#8a856f; font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="l-wrap">
+    <div class="eyebrow" style="justify-content:center; color:var(--sun-citrus)">CARGILL — PHASE 5</div>
+    <h1>الجريد وقاعدة التسمية</h1>
+    <p>الجريد هنا مش ديمو ملوّن — الصفحة اللي بتقراها دلوقتي مبنية عليه فعليًا. وقاعدة تسمية واحدة موثقة، بعد ما كانت مبعثرة بين أكتر من نمط.</p>
+  </div>
+</div>
+
+<div class="l-wrap">
+
+  <!-- ============ GRID — APPLIED ============ -->
+  <section class="l-section">
+    <div class="eyebrow">GRID — APPLIED, NOT DEMO</div>
+    <h2>الجريد شغّال فعليًا هنا</h2>
+    <p>القسم ده مبني بـ <span dir="ltr" style="font-family:'IBM Plex Mono'">display:grid</span> حقيقي على 12 عمود — مش صفوف ملوّنة بتعرض الفكرة وبس. لاحظ إزاي البطاقات بتترتب: كارت بـ 4 أعمدة، كارت بـ 5، كارت بـ 4 — المجموع 13 لأن فيه Gap، جرّب تصغّر الشاشة وهتشوفهم بيتحولوا لـ 8 أعمدة (تابلت) بعدين 4 (موبايل) تلقائيًا.</p>
+
+    <div class="col-strip">
+      <div class="col-tick"></div><div class="col-tick"></div><div class="col-tick"></div><div class="col-tick"></div>
+      <div class="col-tick"></div><div class="col-tick"></div><div class="col-tick"></div><div class="col-tick"></div>
+      <div class="col-tick"></div><div class="col-tick"></div><div class="col-tick"></div><div class="col-tick"></div>
+    </div>
+
+    <div class="c-grid grid-outline">
+      <div class="c-card col-4">
+        <h3>شحنات هذا الأسبوع</h3>
+        <div class="kpi">14</div>
+      </div>
+      <div class="c-card col-4">
+        <h3>متوسط زمن العبور</h3>
+        <div class="kpi">6.2 <span style="font-size:14px">يوم</span></div>
+      </div>
+      <div class="c-card col-4">
+        <h3>نسبة القبول بالفحص</h3>
+        <div class="kpi">97%</div>
+      </div>
+      <div class="c-card col-7">
+        <h3>آخر 3 شحنات</h3>
+        <p class="muted" style="max-width:none">CGL-1042 → روتردام · CGL-1043 → جدة · CGL-1044 → دبي</p>
+      </div>
+      <div class="c-card col-5">
+        <h3>تنبيهات نشطة</h3>
+        <p class="muted" style="max-width:none">شهادة فحص تنتهي خلال 3 أيام</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BREAKPOINTS / CONTAINER ============ -->
+  <section class="l-section">
+    <div class="eyebrow">CONTAINER &amp; BREAKPOINTS</div>
+    <h2>الحاوية ونقاط الانكسار</h2>
+    <table>
+      <thead><tr><th>الجهاز</th><th>Breakpoint</th><th>الأعمدة</th><th>Container</th><th>الهامش</th></tr></thead>
+      <tbody>
+        <tr><td>Mobile</td><td class="mono">≤767px</td><td class="mono">4</td><td class="mono">100%</td><td class="mono">16px</td></tr>
+        <tr><td>Tablet</td><td class="mono">768–1023px</td><td class="mono">8</td><td class="mono">100%</td><td class="mono">20-24px</td></tr>
+        <tr><td>Desktop</td><td class="mono">1024–1439px</td><td class="mono">12</td><td class="mono">1100px</td><td class="mono">24px</td></tr>
+        <tr><td>Large Desktop <span class="muted">(إضافة جديدة)</span></td><td class="mono">≥1440px</td><td class="mono">12</td><td class="mono">1160px ثابت</td><td class="mono">auto</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:8px">الإضافة الوحيدة هنا: نقطة Large Desktop — بدونها المحتوى كان هيفضل ملزوق بعرض 1100px على شاشات الـ 4K والشاشات العريضة بدل ما ياخد Container أوسع شوية. القيم التلاتة التانية زي ما اتحددت من أول الملف.</p>
+  </section>
+
+  <!-- ============ ELEVATION ============ -->
+  <section class="l-section">
+    <div class="eyebrow">ELEVATION SYSTEM</div>
+    <h2>ترتيب الطبقات (Z-Index)</h2>
+    <p>مكوّنات زي الـ Modal والـ Toast والـ Tooltip لسه مش مبنية، لكن لازم يكون عندنا ترتيب طبقات محدد من دلوقتي، عشان لما نبنيهم متضاربش فوق بعض.</p>
+    <div class="elev-row">
+      <div class="elev-box" style="box-shadow:none"><b>Base</b><span>z-index: 0</span></div>
+      <div class="elev-box" style="box-shadow:0 2px 6px rgba(33,31,26,.08)"><b>Dropdown</b><span>z-index: 100</span></div>
+      <div class="elev-box" style="box-shadow:0 6px 16px rgba(33,31,26,.10)"><b>Sticky Header</b><span>z-index: 200</span></div>
+      <div class="elev-box" style="box-shadow:0 14px 32px rgba(33,31,26,.14)"><b>Overlay</b><span>z-index: 900</span></div>
+      <div class="elev-box" style="box-shadow:0 24px 64px rgba(33,31,26,.28)"><b>Modal</b><span>z-index: 1000</span></div>
+      <div class="elev-box" style="box-shadow:0 14px 32px rgba(33,31,26,.14)"><b>Toast</b><span>z-index: 1100</span></div>
+      <div class="elev-box" style="box-shadow:0 6px 16px rgba(33,31,26,.10)"><b>Tooltip</b><span>z-index: 1200</span></div>
+    </div>
+  </section>
+
+  <!-- ============ NAMING CONVENTION ============ -->
+  <section class="l-section">
+    <div class="eyebrow">NAMING CONVENTION</div>
+    <h2>قاعدة تسمية واحدة، من دلوقتي فصاعدًا</h2>
+    <p>المراجعة السابقة رصدت مشكلة حقيقية: مفيش نظام تسمية موحّد، وفيه كود ميت. الحل مش نعيد كتابة كل الملفات القديمة دلوقتي — الحل إننا نعتمد القاعدة الرسمية هنا، ونطبقها في كل ملف جديد من هنا، مع خطة تنظيف واضحة للقديم.</p>
+
+    <table class="naming-table">
+      <thead><tr><th>البادئة</th><th>الاستخدام</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td>c-</td><td style="direction:rtl; font-family:Cairo">مكوّن مستقل قابل لإعادة الاستخدام</td><td class="mono">.c-button, .c-badge, .c-card</td></tr>
+        <tr><td>c-*--*</td><td style="direction:rtl; font-family:Cairo">تنويع (Modifier) على نفس المكوّن</td><td class="mono">.c-button--accent, .c-badge--danger</td></tr>
+        <tr><td>is-*</td><td style="direction:rtl; font-family:Cairo">حالة مؤقتة (JS بيضيفها أو بيشيلها)</td><td class="mono">.is-active, .is-disabled, .is-loading</td></tr>
+        <tr><td>l-*</td><td style="direction:rtl; font-family:Cairo">عنصر تخطيط (Layout) مش مكوّن بصري</td><td class="mono">.l-wrap, .l-section, .l-grid</td></tr>
+        <tr><td>u-*</td><td style="direction:rtl; font-family:Cairo">Utility بغرض واحد بس</td><td class="mono">.u-mt-4, .u-text-muted</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:var(--space-5)">ديون التسمية الموجودة فعلاً (من الملفات السابقة)</h3>
+    <p>القائمة دي حقيقية ومأخوذة من مراجعة الكود الفعلي — مش قائمة عامة.</p>
+    <table>
+      <thead><tr><th>المشكلة</th><th>الموقع</th><th>الإجراء</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">.hero-logo</td><td style="direction:rtl">معرّف في CSS، مش مستخدم في أي HTML</td><td><span class="badge-status badge-fix">حذف</span></td></tr>
+        <tr><td class="mono">.t-mono</td><td style="direction:rtl">معرّف في CSS، مش مستخدم في أي HTML</td><td><span class="badge-status badge-fix">حذف</span></td></tr>
+        <tr><td class="mono">.active</td><td style="direction:rtl">مستخدم في Tabs وPagination كـ state class عام جدًا</td><td><span class="badge-status badge-fix">تحويل لـ .is-active</span></td></tr>
+        <tr><td class="mono">.wrap / .section / .row</td><td style="direction:rtl">أسماء Layout بدون بادئة، ممكن تتلخبط مع أي كلاس تاني بنفس الاسم</td><td><span class="badge-status badge-fix">تحويل لـ .l-wrap / .l-section / .u-row</span></td></tr>
+        <tr><td class="mono">CMYK filter hack</td><td style="direction:rtl">اتصلح بالفعل في Phase 3</td><td><span class="badge-status badge-new">تم</span></td></tr>
+      </tbody>
+    </table>
+    <div class="flag">
+      <b>القرار:</b> ملفات Phase 1-4 مش هتتعدل رجعيًا دلوقتي عشان منضيعش وقت في إعادة كتابة حاجة شغالة بصريًا. التنظيف ده هيتنفذ في Phase 6 كجزء من بناء مكتبة المكوّنات من الصفر بالتسمية الجديدة، بدل ما يتكرر الشغل مرتين.
+    </div>
+  </section>
+
+  <!-- ============ ATOMIC DESIGN ============ -->
+  <section class="l-section">
+    <div class="eyebrow">ATOMIC DESIGN MAP</div>
+    <h2>تصنيف كل حاجة عندنا فعليًا</h2>
+    <p>مش تنظير — ده تصنيف حقيقي للمكوّنات اللي اتبنت في Phase 1 و2.</p>
+    <div class="atomic-row">
+      <div class="atomic-label">Atoms</div>
+      <div class="atomic-items">
+        <div class="atomic-chip">Button</div><div class="atomic-chip">Input</div><div class="atomic-chip">Badge</div>
+        <div class="atomic-chip">Tag</div><div class="atomic-chip">Avatar</div><div class="atomic-chip">Icon</div>
+        <div class="atomic-chip">Label</div>
+      </div>
+    </div>
+    <div class="atomic-row">
+      <div class="atomic-label">Molecules</div>
+      <div class="atomic-items">
+        <div class="atomic-chip">Form Field (label+input)</div><div class="atomic-chip">Breadcrumb</div>
+        <div class="atomic-chip">Pagination</div><div class="atomic-chip">Tooltip</div><div class="atomic-chip">Progress Bar</div>
+      </div>
+    </div>
+    <div class="atomic-row">
+      <div class="atomic-label">Organisms</div>
+      <div class="atomic-items">
+        <div class="atomic-chip">Product Card</div><div class="atomic-chip">Data Table</div>
+        <div class="atomic-chip">Tabs Group</div><div class="atomic-chip">Alert Banner</div><div class="atomic-chip">KPI Row (جديد هنا)</div>
+      </div>
+    </div>
+    <div class="atomic-row">
+      <div class="atomic-label">Templates</div>
+      <div class="atomic-items">
+        <div class="atomic-chip muted" style="background:transparent; border:1px dashed var(--stone-dark)">لسه مش موجود — محتاج Sidebar + Navigation الأول (Phase 6)</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<footer>Cargill Grid &amp; Naming Convention · Phase 5 · v1.0</footer>
+</body>
+</html>

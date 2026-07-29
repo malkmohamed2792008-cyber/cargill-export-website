@@ -7,18 +7,17 @@ import { heroData } from "@/lib/data"
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-deep-grove">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src={heroData.backgroundImage}
           alt="Hero Background"
           fill
-          className="object-cover"
+          className="object-cover opacity-60"
           priority
           quality={90}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/85 to-primary/60" />
       </div>
 
       {/* Content */}
@@ -48,15 +47,18 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Link href="/contact" className="btn-gold text-center">
+            <Link href="/contact" className="btn btn-accent text-center">
               Request a Quote
             </Link>
-            <Link href="/contact" className="btn-secondary bg-white/10 border-white text-white hover:bg-white hover:text-primary text-center">
+            <Link href="/contact" className="btn btn-outline bg-white/10 border-white text-white hover:bg-white hover:text-deep-grove text-center">
               Contact Sales
             </Link>
           </motion.div>
         </div>
       </div>
+
+      {/* Orange Border Bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-sun-citrus" />
 
       {/* Scroll Indicator */}
       <motion.div

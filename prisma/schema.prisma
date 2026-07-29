@@ -1,0 +1,241 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ProductCategory {
+  id            String               @id
+  name          String
+  slug          String               @unique
+  description   String
+  imageUrl      String
+  subcategories ProductSubcategory[]
+  products      Product[]
+}
+
+model ProductSubcategory {
+  id         String          @id
+  name       String
+  slug       String          @unique
+  categoryId String
+  category   ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  products   Product[]
+}
+
+model Product {
+  id                  String                      @id
+  name                String
+  slug                String                      @unique
+  categoryId          String
+  subcategoryId       String
+  description         String
+  shortDescription    String
+  imageUrl            String
+  gallery             ProductImage[]
+  specification       ProductSpecification?
+  exportSeason        ProductExportSeason?
+  packaging           ProductPackaging[]
+  cartonSpecification ProductCartonSpecification?
+  storage             ProductStorage?
+  exportedCountries   ProductExportCountry[]
+  isBestSelling       Boolean                     @default(false)
+  isSeasonal          Boolean                     @default(false)
+  category            ProductCategory             @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  subcategory         ProductSubcategory          @relation(fields: [subcategoryId], references: [id], onDelete: Restrict)
+  createdAt           DateTime                    @default(now())
+  updatedAt           DateTime                    @updatedAt
+}
+
+model ProductCartonSpecification {
+  id               String  @id @default(cuid())
+  productId        String  @unique
+  product          Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cartonSize       String
+  netWeight        String
+  grossWeight      String
+  dimensions       String
+  piecesPerCarton  String
+  cartonsPerPallet String
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  alt       String?
+  position  Int     @default(0)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductSpecification {
+  id                     String  @id @default(cuid())
+  productId              String  @unique
+  product                Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productName            String
+  scientificName         String?
+  category               String
+  origin                 String
+  countryOfOrigin        String
+  variety                String?
+  color                  String?
+  shape                  String?
+  size                   String?
+  diameter               String?
+  weight                 String?
+  taste                  String?
+  texture                String?
+  moistureLevel          String?
+  maturity               String?
+  qualityGrade           String
+  exportGrade            String
+  shelfLife              String
+  storageTemperature     String
+  humidityRecommendation String?
+  transportationMethod   String
+  availability           String
+}
+
+model ProductExportSeason {
+  id               String  @id @default(cuid())
+  productId        String  @unique
+  product          Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  availableMonths  Int[]
+  peakExportMonths Int[]
+  offSeason        Int[]
+}
+
+model ProductPackaging {
+  id          String  @id @default(cuid())
+  productId   String
+  type        String
+  description String
+  imageUrl    String?
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model ProductStorage {
+  id                      String  @id @default(cuid())
+  productId               String  @unique
+  product                 Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  storageTemperature      String
+  humidity                String
+  shippingMethod          String
+  refrigeratedContainer   String
+  shelfLifeDuringShipping String
+}
+
+model ProductExportCountry {
+  id        String  @id @default(cuid())
+  productId String
+  name      String
+  code      String
+  flag      String?
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Certification {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  issuer    String
+  productId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @map("updated_at")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  role      AdminRole @default(ADMIN)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AdminRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model QuoteRequest {
+  id          String   @id @default(cuid())
+  productId   String?
+  productName String?
+  name        String
+  email       String
+  company     String?
+  country     String?
+  phone       String?
+  message     String
+  status      QuoteStatus @default(PENDING)
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum QuoteStatus {
+  PENDING
+  PROCESSED
+  COMPLETED
+  CANCELLED
+}
+
+model ContactMessage {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  company     String?
+  subject     String
+  message     String
+  isRead     Boolean  @default(false)
+  isArchived Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CompanyInfo {
+  id        String   @id @default("default")
+  name      String
+  tagline   String
+  description String
+  established Int
+  country   String
+  email     String
+  phone     String
+  whatsapp  String
+  address   String
+  businessHours String
+  socialMedia SocialMedia?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SocialMedia {
+  id          String   @id @default(cuid())
+  companyInfoId String @unique
+  companyInfo CompanyInfo @relation(fields: [companyInfoId], references: [id], onDelete: Cascade)
+  facebook   String?
+  linkedin   String?
+  instagram  String?
+  twitter    String?
+}
+
+model SeoSettings {
+  id          String   @id @default("default")
+  page        String   @unique
+  title       String
+  description String
+  keywords    String?
+  ogTitle     String?
+  ogDescription String?
+  ogImage     String?
+  canonicalUrl String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

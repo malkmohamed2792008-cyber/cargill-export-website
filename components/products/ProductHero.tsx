@@ -2,15 +2,16 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Product, productCategories } from "@/lib/products"
+import type { Product, ProductCategory } from "@/lib/products"
 import { FiChevronRight, FiCalendar, FiStar, FiMapPin, FiAward, FiClock, FiTruck } from "react-icons/fi"
 
 interface ProductHeroProps {
   product: Product
+  category?: ProductCategory
 }
 
-export default function ProductHero({ product }: ProductHeroProps) {
-  const category = productCategories.find((c) => c.id === product.categoryId)
+export default function ProductHero({ product, category: propCategory }: ProductHeroProps) {
+  const category = propCategory
 
   return (
     <section className="pt-32 pb-12 bg-gradient-to-b from-gray-50 to-white">
@@ -115,10 +116,10 @@ export default function ProductHero({ product }: ProductHeroProps) {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="#quote" className="btn-primary text-center">
+              <Link href="#quote" className="btn btn-primary text-center">
                 Request a Quote
               </Link>
-              <Link href="/contact" className="btn-secondary text-center">
+              <Link href="/contact" className="btn btn-outline border-deep-grove text-deep-grove hover:bg-deep-grove hover:text-white text-center">
                 Contact Sales
               </Link>
             </div>

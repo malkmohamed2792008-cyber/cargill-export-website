@@ -1,35 +1,65 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FiSearch, FiX } from "react-icons/fi"
 const Search = FiSearch
 const X = FiX
 import Link from "next/link"
 import Image from "next/image"
-import { searchProducts } from "@/lib/products"
-import { Product } from "@/lib/products"
+import type { Product } from "@/lib/products"
+import { matchesCatalogQuery } from "@/lib/product-utils"
 
-export default function ProductsSearch() {
+interface ProductsSearchProps {
+  products: Product[]
+}
+
+export default function ProductsSearch({ products }: ProductsSearchProps) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState<Product[]>([])
   const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query)
-    if (query.length >= 2) {
-      const results = searchProducts(query)
-      setSearchResults(results)
-    } else {
-      setSearchResults([])
+  const searchResults = useMemo(() => {
+    if (searchQuery.length < 2) {
+      return []
     }
-  }
+
+    return products.filter((product) => matchesCatalogQuery(product, searchQuery))
+  }, [searchQuery, products])
+
+  const visibleResults = searchResults.slice(0, 6)
 
   const clearSearch = () => {
     setSearchQuery("")
-    setSearchResults([])
     setIsSearchFocused(false)
   }
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    setIsSearchFocused(true)
+  }
+
+  const handleFocus = () => {
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current)
+      blurTimeoutRef.current = null
+    }
+    setIsSearchFocused(true)
+  }
+
+  const handleBlur = () => {
+    blurTimeoutRef.current = setTimeout(() => {
+      setIsSearchFocused(false)
+    }, 150)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (blurTimeoutRef.current) {
+        clearTimeout(blurTimeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <section className="relative bg-white py-8 border-b">
@@ -40,11 +70,18 @@ export default function ProductsSearch() {
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
+                id="product-search"
                 type="text"
                 placeholder="Search for products..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={isSearchFocused && visibleResults.length > 0}
+                aria-controls="product-search-results"
+                aria-describedby="product-search-help"
                 className="w-full pl-12 pr-12 py-4 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none transition-colors text-lg"
               />
               {searchQuery && (
@@ -60,18 +97,20 @@ export default function ProductsSearch() {
 
             {/* Search Results Dropdown */}
             <AnimatePresence>
-              {isSearchFocused && searchResults.length > 0 && (
+              {isSearchFocused && visibleResults.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
+                  id="product-search-results"
+                  role="listbox"
                   className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 max-h-80 overflow-y-auto z-50"
                 >
                   <div className="p-2">
-                    <p className="text-xs text-gray-500 px-3 py-2">
+                    <p id="product-search-help" className="text-xs text-gray-500 px-3 py-2">
                       {searchResults.length} product{searchResults.length !== 1 ? "s" : ""} found
                     </p>
-                    {searchResults.slice(0, 6).map((product) => (
+                    {visibleResults.map((product) => (
                       <Link
                         key={product.id}
                         href={`/products/${product.slug}`}
@@ -79,6 +118,8 @@ export default function ProductsSearch() {
                           setIsSearchFocused(false)
                           setSearchQuery("")
                         }}
+                        role="option"
+                        aria-label={`View product ${product.name}`}
                         className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                       >
                         <div className="w-12 h-12 relative rounded-lg overflow-hidden flex-shrink-0">

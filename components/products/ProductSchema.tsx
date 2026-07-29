@@ -1,12 +1,70 @@
 "use client"
 
-import { Product } from "@/lib/products"
+import type { Product, ProductCategory } from "@/lib/products"
+import { generateBreadcrumbSchema } from "@/lib/utils"
 
 interface ProductSchemaProps {
   product: Product
+  category?: ProductCategory
 }
 
-export default function ProductSchema({ product }: ProductSchemaProps) {
+export default function ProductSchema({ product, category }: ProductSchemaProps) {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    {
+      name: "Home",
+      url: "https://cargill-eg.com",
+    },
+    {
+      name: "Products",
+      url: "https://cargill-eg.com/products",
+    },
+    ...(category
+      ? [
+          {
+            name: category.name,
+            url: `https://cargill-eg.com/products/${category.slug}`,
+          },
+        ]
+      : []),
+    {
+      name: product.name,
+      url: `https://cargill-eg.com/products/${product.slug}`,
+    },
+  ])
+
+  const additionalProperties = [
+    {
+      "@type": "PropertyValue",
+      name: "Quality Grade",
+      value: product.specifications.qualityGrade,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "Export Grade",
+      value: product.specifications.exportGrade,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "Shelf Life",
+      value: product.specifications.shelfLife,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "Storage Temperature",
+      value: product.specifications.storageTemperature,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "Variety",
+      value: product.specifications.variety,
+    },
+    {
+      "@type": "PropertyValue",
+      name: "Origin",
+      value: product.specifications.origin,
+    },
+  ].filter((property) => Boolean(property.value))
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -38,10 +96,10 @@ export default function ProductSchema({ product }: ProductSchemaProps) {
       itemCondition: "https://schema.org/NewCondition",
       shippingDetails: {
         "@type": "OfferShippingDetails",
-        shippingDestination: {
+        shippingDestination: product.exportedTo.map((country) => ({
           "@type": "DefinedRegion",
-          addressCountry: product.exportedTo.map((c) => c.code),
-        },
+          addressCountry: country.code,
+        })),
       },
     },
     aggregateRating: {
@@ -49,44 +107,19 @@ export default function ProductSchema({ product }: ProductSchemaProps) {
       ratingValue: "4.8",
       reviewCount: "127",
     },
-    additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name: "Quality Grade",
-        value: product.specifications.qualityGrade,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Export Grade",
-        value: product.specifications.exportGrade,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Shelf Life",
-        value: product.specifications.shelfLife,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Storage Temperature",
-        value: product.specifications.storageTemperature,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Variety",
-        value: product.specifications.variety,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Origin",
-        value: product.specifications.origin,
-      },
-    ],
+    additionalProperty: additionalProperties,
   }
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+    </>
   )
 }

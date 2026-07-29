@@ -6,6 +6,21 @@ export const metadata: Metadata = {
   title: seoData.services.title,
   description: seoData.services.description,
   keywords: seoData.services.keywords,
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: seoData.services.title,
+    description: seoData.services.description,
+    url: "/services",
+    siteName: "CARGILL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seoData.services.title,
+    description: seoData.services.description,
+  },
 }
 
 export default function ServicesPage() {
@@ -55,7 +70,7 @@ export default function ServicesPage() {
             </p>
             <a
               href="/contact"
-              className="btn-gold inline-block"
+              className="btn btn-accent inline-block"
             >
               Get In Touch
             </a>

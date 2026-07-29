@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Product } from "@/lib/products"
 import { useState } from "react"
 import { FiSend, FiCheck } from "react-icons/fi"
+import { isValidEmail, isValidPhone } from "@/lib/utils"
 
 interface ProductQuoteProps {
   product: Product
@@ -11,6 +12,7 @@ interface ProductQuoteProps {
 
 export default function ProductQuote({ product }: ProductQuoteProps) {
   const [formData, setFormData] = useState({
+    product: product.name,
     name: "",
     company: "",
     country: "",
@@ -31,6 +33,14 @@ export default function ProductQuote({ product }: ProductQuoteProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isValidEmail(formData.email)) {
+      return
+    }
+
+    if (formData.phone && !isValidPhone(formData.phone)) {
+      return
+    }
+
     setIsLoading(true)
 
     // Simulate form submission
@@ -90,6 +100,19 @@ export default function ProductQuote({ product }: ProductQuoteProps) {
             <div className="bg-white rounded-2xl p-8 shadow-xl">
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Product Name
+                    </label>
+                    <input
+                      type="text"
+                      name="product"
+                      value={formData.product}
+                      readOnly
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
+                    />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -212,8 +235,6 @@ export default function ProductQuote({ product }: ProductQuoteProps) {
                       placeholder={`I'm interested in ordering ${product.name}. Please provide a quotation.`}
                     />
                   </div>
-
-                  <input type="hidden" name="product" value={product.name} />
 
                   <button
                     type="submit"

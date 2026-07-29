@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Playfair_Display, Inter } from "next/font/google"
+import { Fraunces, Cairo, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
@@ -7,38 +7,62 @@ import WhatsAppButton from "@/components/whatsapp/WhatsAppButton"
 import ScrollToTop from "@/components/ui/ScrollToTop"
 import { seoData } from "@/lib/data"
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
 })
 
-const inter = Inter({
-  variable: "--font-inter",
+const cairo = Cairo({
+  variable: "--font-cairo",
+  subsets: ["latin"],
+  display: "swap",
+})
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  weight: ["400", "500"],
   subsets: ["latin"],
   display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: seoData.home.title,
+  title: {
+    default: "CARGILL | Egyptian Export & Import Company",
+    template: "%s | CARGILL",
+  },
   description: seoData.home.description,
   keywords: seoData.home.keywords,
   authors: [{ name: "CARGILL" }],
   creator: "CARGILL",
   publisher: "CARGILL",
   metadataBase: new URL("https://cargill-eg.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: seoData.home.title,
+    title: "CARGILL | Egyptian Export & Import Company",
     description: seoData.home.description,
     url: "https://cargill-eg.com",
     siteName: "CARGILL",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+        width: 1200,
+        height: 630,
+        alt: "CARGILL export company",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: seoData.home.title,
+    title: "CARGILL | Egyptian Export & Import Company",
     description: seoData.home.description,
+    images: [
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+    ],
   },
   robots: {
     index: true,
@@ -59,11 +83,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${playfair.variable} ${inter.variable}`}
-    >
-      <body className="min-h-screen flex flex-col bg-background text-foreground">
+    <html lang="en" className={`${fraunces.variable} ${cairo.variable} ${ibmPlexMono.variable}`}>
+      <body className="min-h-screen flex flex-col bg-paper-husk text-ink">
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />

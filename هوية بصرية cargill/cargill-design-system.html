@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Cargill — Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-grove:#263D2C;
+    --fresh-leaf:#6B8E4E;
+    --sun-citrus:#E2932E;
+    --crate-brown:#8B5E34;
+    --paper-husk:#F6F1E4;
+    --ink:#211F1A;
+    --stone:#DCD5C0;
+    --stone-dark:#B9AF92;
+    --white:#FFFDF8;
+    --danger:#B6472F;
+
+    /* semantic tokens — built from the base palette above, never new colors */
+    --color-primary:var(--deep-grove);
+    --color-primary-hover:#1A2B1F;
+    --color-secondary:var(--fresh-leaf);
+    --color-accent:var(--sun-citrus);
+    --color-accent-hover:#C77D1E;
+    --color-success:var(--fresh-leaf);
+    --color-warning:var(--sun-citrus);
+    --color-danger:var(--danger);
+    --color-neutral:var(--stone);
+    --color-surface:var(--white);
+    --color-background:var(--paper-husk);
+    --color-border:var(--stone);
+    --color-border-strong:var(--stone-dark);
+    --color-text:var(--ink);
+    --color-text-muted:#6b6656;
+    --color-disabled-bg:var(--stone);
+    --color-disabled-text:#a29c86;
+    --color-focus:var(--fresh-leaf);
+
+    --radius-xs:2px;
+    --radius-s:4px;
+    --radius-m:10px;
+    --radius-l:16px;
+    --radius-xl:24px;
+    --radius-pill:999px;
+
+    --shadow-xs:0 1px 2px rgba(33,31,26,.06);
+    --shadow-sm:0 2px 6px rgba(33,31,26,.08);
+    --shadow-md:0 6px 16px rgba(33,31,26,.10);
+    --shadow-lg:0 14px 32px rgba(33,31,26,.14);
+    --shadow-xl:0 28px 56px rgba(33,31,26,.18);
+    --shadow-card:0 4px 14px rgba(38,61,44,.10);
+    --shadow-modal:0 24px 64px rgba(33,31,26,.28);
+
+    --space-1:4px;
+    --space-2:8px;
+    --space-2h:12px;
+    --space-3:16px;
+    --space-4:24px;
+    --space-4h:32px;
+    --space-5:40px;
+    --space-5h:48px;
+    --space-6:64px;
+    --space-6h:80px;
+    --space-7:96px;
+    --space-8:128px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper-husk);
+    color:var(--ink);
+    font-family:'Cairo','Inter',sans-serif;
+    line-height:1.6;
+  }
+  .ltr{direction:ltr; font-family:'IBM Plex Mono', monospace; unicode-bidi:isolate;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 var(--space-4);}
+  .section{padding:var(--space-6) 0; border-bottom:1px dashed var(--stone-dark);}
+  .section:last-child{border-bottom:none;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    direction:ltr;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:12px;
+    color:var(--crate-brown);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:var(--space-2);
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--crate-brown);}
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    color:var(--deep-grove);
+    margin:0 0 var(--space-2);
+  }
+  h2{font-size:32px;}
+  p{max-width:640px; color:#4a463c;}
+  .muted{color:#6b6656; font-size:14px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--deep-grove);
+    color:var(--paper-husk);
+    padding:var(--space-7) 0 var(--space-6);
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--sun-citrus);
+  }
+  .hero .wrap{display:flex; justify-content:space-between; align-items:flex-end; gap:var(--space-5); flex-wrap:wrap;}
+  .hero-logo{
+    background:var(--paper-husk);
+    padding:var(--space-4);
+    border-radius:var(--radius-m);
+    width:220px;
+  }
+  .hero-logo img{width:100%; display:block; filter:invert(16%) sepia(15%) saturate(1200%) hue-rotate(70deg);}
+  .hero h1{color:var(--white); font-size:44px; margin-bottom:var(--space-2);}
+  .hero p{color:#cfd9c8; max-width:480px;}
+  .stamp{
+    width:150px; height:150px;
+    border:2px dashed var(--sun-citrus);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    transform:rotate(-9deg);
+    flex-shrink:0;
+    position:relative;
+  }
+  .stamp::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px solid var(--sun-citrus);
+    border-radius:50%;
+  }
+  .stamp-inner{
+    text-align:center;
+    color:var(--sun-citrus);
+    font-family:'IBM Plex Mono', monospace;
+    direction:ltr;
+  }
+  .stamp-inner svg{width:28px; height:28px; margin-bottom:4px;}
+  .stamp-inner .big{font-size:13px; font-weight:600; letter-spacing:.08em;}
+  .stamp-inner .small{font-size:9px; letter-spacing:.15em; opacity:.8;}
+
+  /* ---------- COLOR ---------- */
+  .swatches{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:var(--space-3); margin-top:var(--space-4);}
+  .swatch{border:1px solid var(--stone); border-radius:var(--radius-m); overflow:hidden; background:var(--white);}
+  .swatch-color{height:90px;}
+  .swatch-info{padding:var(--space-2) var(--space-3);}
+  .swatch-name{font-weight:700; font-size:14px;}
+  .swatch-hex{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:12px; color:#6b6656; display:block; margin-top:2px;}
+  .swatch-use{font-size:12px; color:#847e6a; margin-top:4px;}
+
+  /* ---------- TYPE ---------- */
+  .type-row{display:flex; align-items:baseline; gap:var(--space-4); padding:var(--space-3) 0; border-top:1px solid var(--stone); flex-wrap:wrap;}
+  .type-row:last-child{border-bottom:1px solid var(--stone);}
+  .type-meta{width:190px; flex-shrink:0;}
+  .type-meta .name{font-weight:700; font-size:13px;}
+  .type-meta .spec{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; color:#847e6a; display:block;}
+  .t-display{font-family:'Fraunces',serif; font-weight:600; font-size:38px; color:var(--deep-grove);}
+  .t-h{font-family:'Fraunces',serif; font-weight:600; font-size:24px; color:var(--deep-grove);}
+  .t-body{font-family:'Cairo',sans-serif; font-size:16px;}
+  .t-mono{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:14px; background:var(--stone); padding:2px 8px; border-radius:4px;}
+
+  /* ---------- SPACING ---------- */
+  .space-row{display:flex; align-items:center; gap:var(--space-3); margin-bottom:var(--space-2);}
+  .space-bar{background:var(--fresh-leaf); height:14px; border-radius:3px;}
+  .space-label{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:12px; width:110px;}
+
+  /* ---------- BUTTONS ---------- */
+  .row{display:flex; gap:var(--space-3); flex-wrap:wrap; margin-top:var(--space-4); align-items:center;}
+  .btn{
+    font-family:'Cairo',sans-serif;
+    font-weight:700;
+    font-size:15px;
+    padding:12px 26px;
+    border-radius:var(--radius-s);
+    border:2px solid transparent;
+    cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--deep-grove); color:var(--white);}
+  .btn-accent{background:var(--sun-citrus); color:var(--ink);}
+  .btn-outline{background:transparent; border-color:var(--deep-grove); color:var(--deep-grove);}
+  .btn-ghost{background:transparent; color:var(--crate-brown); border:none; text-decoration:underline;}
+  .btn-disabled{background:var(--stone); color:#a29c86; cursor:not-allowed;}
+
+  /* ---------- FORM ---------- */
+  .form-demo{max-width:420px; margin-top:var(--space-4); background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:var(--space-4);}
+  label{display:block; font-size:13px; font-weight:700; margin-bottom:6px; color:var(--deep-grove);}
+  .field{margin-bottom:var(--space-3);}
+  input, select{
+    width:100%; padding:10px 12px; border:1.5px solid var(--stone-dark);
+    border-radius:var(--radius-s); font-family:'Cairo',sans-serif; font-size:14px;
+    background:var(--paper-husk); color:var(--ink);
+  }
+  input:focus, select:focus{outline:2px solid var(--fresh-leaf); outline-offset:1px; border-color:var(--fresh-leaf);}
+
+  /* ---------- CARD ---------- */
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:var(--space-4); margin-top:var(--space-4);}
+  .card{
+    background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m);
+    overflow:hidden; position:relative;
+  }
+  .card-top{
+    height:120px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,var(--fresh-leaf),var(--deep-grove));
+  }
+  .card-top svg{width:46px; height:46px; color:var(--paper-husk);}
+  .card-body{padding:var(--space-3);}
+  .card-body h3{font-size:18px; margin-bottom:4px;}
+  .badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px;
+    font-family:'IBM Plex Mono',monospace; direction:ltr; letter-spacing:.04em;
+  }
+  .badge-organic{background:#e6efd9; color:var(--fresh-leaf);}
+  .badge-export{background:#fdecd2; color:var(--sun-citrus);}
+  .badge-a{background:#e6e0d1; color:var(--crate-brown);}
+
+  /* ---------- ALERTS ---------- */
+  .alert{padding:14px 18px; border-radius:var(--radius-s); margin-bottom:var(--space-2); font-size:14px; border-inline-start:4px solid;}
+  .alert-ok{background:#eef4e6; border-color:var(--fresh-leaf); color:#3d5a2a;}
+  .alert-warn{background:#fdf1dd; border-color:var(--sun-citrus); color:#7a4f0e;}
+  .alert-err{background:#fbe8e2; border-color:#b6472f; color:#8a2f1c;}
+
+  /* ---------- TABLE ---------- */
+  table{width:100%; border-collapse:collapse; margin-top:var(--space-4); background:var(--white); font-size:14px;}
+  th,td{padding:12px 14px; text-align:right; border-bottom:1px solid var(--stone);}
+  th{background:var(--deep-grove); color:var(--white); font-weight:700; font-size:12px; letter-spacing:.03em;}
+  td.mono{font-family:'IBM Plex Mono',monospace; direction:ltr; text-align:left; color:#6b6656;}
+  tr:hover td{background:#faf7ee;}
+
+  /* ---------- ICONS ---------- */
+  .icon-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(90px,1fr)); gap:var(--space-3); margin-top:var(--space-4); text-align:center;}
+  .icon-box{background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:var(--space-3);}
+  .icon-box svg{width:28px; height:28px; color:var(--deep-grove); margin-bottom:6px;}
+  .icon-box span{display:block; font-size:11px; color:#6b6656;}
+
+  footer{padding:var(--space-5) 0; text-align:center; color:#8a856f; font-size:13px;}
+
+  /* ---------- BRAND FOUNDATION ---------- */
+  .pillars{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:var(--space-3); margin-top:var(--space-4);}
+  .pillar{background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:var(--space-3);}
+  .pillar .num{font-family:'IBM Plex Mono',monospace; direction:ltr; color:var(--sun-citrus); font-size:12px; font-weight:700;}
+  .pillar h3{font-size:17px; margin:6px 0 4px;}
+  .pillar p{font-size:13.5px; margin:0;}
+  .voice-ex{display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); margin-top:var(--space-4);}
+  .voice-card{border-radius:var(--radius-m); padding:var(--space-3);}
+  .voice-do{background:#eef4e6; border:1px solid var(--fresh-leaf);}
+  .voice-dont{background:#fbe8e2; border:1px solid var(--danger);}
+  .voice-card .tag-label{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; font-weight:700; letter-spacing:.06em;}
+  .voice-do .tag-label{color:#3d5a2a;}
+  .voice-dont .tag-label{color:#8a2f1c;}
+  .voice-card p{font-size:14px; margin:6px 0 0; max-width:none;}
+
+  /* ---------- TOKEN TABLE ---------- */
+  .token-table{width:100%; border-collapse:collapse; margin-top:var(--space-4); font-size:13.5px;}
+  .token-table th{background:var(--deep-grove); color:var(--white); padding:10px 12px; text-align:right; font-size:11px;}
+  .token-table td{padding:10px 12px; border-bottom:1px solid var(--stone); vertical-align:middle;}
+  .token-swatch{width:18px; height:18px; border-radius:5px; display:inline-block; border:1px solid rgba(0,0,0,.08); vertical-align:middle; margin-left:8px;}
+  .token-name{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:12.5px;}
+
+  /* ---------- GRID DEMO ---------- */
+  .grid-demo{display:grid; gap:8px; margin-top:var(--space-3);}
+  .grid-demo.desktop{grid-template-columns:repeat(12,1fr);}
+  .grid-demo.tablet{grid-template-columns:repeat(8,1fr); max-width:520px;}
+  .grid-demo.mobile{grid-template-columns:repeat(4,1fr); max-width:280px;}
+  .grid-col{background:#e6efd9; border:1px dashed var(--fresh-leaf); border-radius:3px; height:34px;}
+  .grid-caption{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; color:#6b6656; margin:6px 0 var(--space-4);}
+
+  /* ---------- RADIUS / SHADOW ---------- */
+  .demo-tiles{display:flex; gap:var(--space-3); flex-wrap:wrap; margin-top:var(--space-4);}
+  .tile{width:90px; height:90px; background:var(--white); border:1px solid var(--stone); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; color:#6b6656;}
+
+  /* ---------- TABS / TAG / AVATAR / PROGRESS ---------- */
+  .tabs{display:flex; gap:4px; border-bottom:2px solid var(--stone); margin-top:var(--space-4);}
+  .tab{padding:10px 18px; font-size:14px; font-weight:700; color:var(--color-text-muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px;}
+  .tab.active{color:var(--deep-grove); border-color:var(--sun-citrus);}
+  .tag{display:inline-flex; align-items:center; gap:4px; background:var(--stone); color:var(--ink); font-size:12px; padding:3px 10px; border-radius:var(--radius-pill); margin-left:6px;}
+  .avatar-row{display:flex; gap:10px; align-items:center; margin-top:var(--space-4);}
+  .avatar{width:40px; height:40px; border-radius:50%; background:var(--fresh-leaf); color:var(--white); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;}
+  .progress-track{background:var(--stone); border-radius:var(--radius-pill); height:10px; overflow:hidden; max-width:420px; margin-top:var(--space-3);}
+  .progress-fill{background:var(--fresh-leaf); height:100%; border-radius:var(--radius-pill);}
+  .crumbs{font-size:13px; color:var(--color-text-muted); margin-top:var(--space-4);}
+  .crumbs span{color:var(--deep-grove); font-weight:700;}
+  .pagination{display:flex; gap:6px; margin-top:var(--space-4);}
+  .page-btn{width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:var(--radius-s); border:1px solid var(--stone); font-size:13px; font-family:'IBM Plex Mono',monospace;}
+  .page-btn.active{background:var(--deep-grove); color:var(--white); border-color:var(--deep-grove);}
+  .tooltip-demo{position:relative; display:inline-block; margin-top:var(--space-4);}
+  .tooltip-bubble{position:absolute; bottom:130%; right:50%; transform:translateX(50%); background:var(--ink); color:var(--white); font-size:12px; padding:6px 10px; border-radius:var(--radius-s); white-space:nowrap;}
+
+  /* ---------- STATES ---------- */
+  .state-box{border:1px dashed var(--stone-dark); border-radius:var(--radius-m); padding:var(--space-5); text-align:center; margin-top:var(--space-3); background:var(--white);}
+  .state-box svg{width:36px; height:36px; color:var(--stone-dark); margin-bottom:8px;}
+  .skeleton{background:linear-gradient(90deg,var(--stone) 25%,#eee6cf 37%,var(--stone) 63%); background-size:400% 100%; animation:shimmer 1.4s ease infinite; border-radius:var(--radius-s); height:16px; margin-bottom:8px;}
+  @keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" style="color:var(--sun-citrus)">CARGILL — DESIGN SYSTEM</div>
+      <h1>هوية بصرية لشركة تصدير<br>ثمرة بثمرة، لكل الدنيا</h1>
+      <p>لغة تصميم واحدة لكل نقاط تواصل كارجيل: الموقع، الفواتير، ملصقات الشحن، ولوحات التحكم الداخلية.</p>
+    </div>
+    <div class="stamp">
+      <div class="stamp-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-7-10.5A5 5 0 0 1 12 6a5 5 0 0 1 7 4.5C19 16.5 12 21 12 21z"/><path d="M12 12v9"/><path d="M12 12c0-4 2-6 5-7"/></svg>
+        <div class="big">GRADE A</div>
+        <div class="small">EXPORT READY</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- ================= BRAND FOUNDATION ================= -->
+  <section class="section">
+    <div class="eyebrow">BRAND FOUNDATION</div>
+    <h2>أساس البراند</h2>
+    <p>قبل أي لون أو خط، دي القواعد اللي بتحكم إزاي كارجيل بتتكلم وبتفكر — كل قرار تصميمي لازم يرجع لها.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="num">01 / MISSION</div>
+        <h3>الرسالة</h3>
+        <p>نوصل محصول المزارع المصري لسوق التصدير العالمي بأعلى معايير الجودة، من غير ما يفقد المنتج طازجيته أو المزارع قيمة تعبه.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">02 / VISION</div>
+        <h3>الرؤية</h3>
+        <p>نبقى الاسم اللي المستورد الأوروبي والخليجي يثق فيه لما يفكر في فاكهة وخضار مصرية.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">03 / VALUES</div>
+        <h3>القيم</h3>
+        <p>الشفافية في كل شحنة، الالتزام بالمواعيد، والجودة اللي بتتفحص مش بتتوعد بيها.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">04 / PERSONALITY</div>
+        <h3>شخصية البراند</h3>
+        <p>تاجر محترف مش سمسار — واثق، دقيق في الأرقام، وقريب من الأرض في نفس الوقت.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:var(--space-5)">نبرة الصوت</h3>
+    <p>واضحة ومباشرة، بتستخدم أرقام حقيقية بدل الوصف الإنشائي، ومحترمة لوقت القارئ.</p>
+    <div class="voice-ex">
+      <div class="voice-card voice-do">
+        <span class="tag-label">DO</span>
+        <p>"الشحنة CGL-1042 هتوصل ميناء روتردام يوم 14 أغسطس."</p>
+      </div>
+      <div class="voice-card voice-dont">
+        <span class="tag-label">DON'T</span>
+        <p>"إحنا بنفتخر إننا بنقدم أفضل تجربة شحن ممكنة لعملائنا الكرام!"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LOGO ================= -->
+  <section class="section">
+    <div class="eyebrow">LOGO</div>
+    <h2>اللوجو</h2>
+    <p>اللوجو الحالي عبارة عن Wordmark بخط واحد بدون لون ثابت — اتفقنا نلبسه لون "Deep Grove" كلون أساسي، ونستخدم النسخة البيضاء على الخلفيات الغامقة.</p>
+    <div class="row">
+      <div style="background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:24px 32px;">
+        <img src="cargill-logo.svg" style="width:200px; filter:invert(16%) sepia(15%) saturate(1200%) hue-rotate(70deg);">
+      </div>
+      <div style="background:var(--deep-grove); border-radius:var(--radius-m); padding:24px 32px;">
+        <img src="cargill-logo.svg" style="width:200px; filter:brightness(0) invert(1);">
+      </div>
+      <div style="background:var(--paper-husk); border:1px dashed var(--stone-dark); border-radius:var(--radius-m); padding:24px 32px;">
+        <img src="cargill-logo.svg" style="width:200px; filter:invert(56%) sepia(45%) saturate(500%) hue-rotate(0deg) brightness(90%);">
+      </div>
+    </div>
+    <p class="muted">مساحة الحماية: اترك فراغ حول اللوجو يساوي ارتفاع حرف الـ C على الأقل من كل جهة. متستخدمش اللوجو على خلفيات فيها صور مزدحمة.</p>
+  </section>
+
+  <!-- ================= COLOR ================= -->
+  <section class="section">
+    <div class="eyebrow">COLOR PALETTE</div>
+    <h2>الألوان</h2>
+    <p>باليت مستوحى من صناديق الفاكهة والأرض الزراعية — أخضر عميق للثقة، أخضر فاتح للحيوية، وبرتقالي "السن سيترس" كلون تنبيه ودعوة لاتخاذ إجراء.</p>
+    <div class="swatches">
+      <div class="swatch">
+        <div class="swatch-color" style="background:var(--deep-grove)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Deep Grove</div>
+          <span class="swatch-hex">#263D2C</span>
+          <div class="swatch-use">أساسي — عناوين، خلفيات غامقة، أزرار رئيسية</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:var(--fresh-leaf)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Fresh Leaf</div>
+          <span class="swatch-hex">#6B8E4E</span>
+          <div class="swatch-use">ثانوي — نجاح، عضوي، حالات إيجابية</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:var(--sun-citrus)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Sun Citrus</div>
+          <span class="swatch-hex">#E2932E</span>
+          <div class="swatch-use">تمييزي — أزرار Accent، تنبيهات، أختام</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:var(--crate-brown)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Crate Brown</div>
+          <span class="swatch-hex">#8B5E34</span>
+          <div class="swatch-use">داعم — تفاصيل، أيقونات، نصوص ثانوية</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:var(--paper-husk); border-bottom:1px solid var(--stone)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Paper Husk</div>
+          <span class="swatch-hex">#F6F1E4</span>
+          <div class="swatch-use">خلفية أساسية لكل الصفحات</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:var(--ink)"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ink</div>
+          <span class="swatch-hex">#211F1A</span>
+          <div class="swatch-use">نص أساسي</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:var(--space-5)">Design Tokens الدلالية</h3>
+    <p>كل الألوان اللي بيستخدمها أي مكون في النظام لازم تتسحب من هنا، مش من الباليت الأساسي مباشرة — ده اللي بيخلي أي تغيير مستقبلي يحصل في مكان واحد.</p>
+    <table class="token-table">
+      <thead><tr><th>Token</th><th>القيمة</th><th>الاستخدام</th><th>تباين مع الخلفية</th></tr></thead>
+      <tbody>
+        <tr><td class="token-name">color-primary</td><td><span class="token-swatch" style="background:var(--deep-grove)"></span><span class="token-name">#263D2C</span></td><td>أزرار أساسية، هيدرز، نصوص عناوين</td><td>AAA على الأبيض</td></tr>
+        <tr><td class="token-name">color-primary-hover</td><td><span class="token-swatch" style="background:var(--color-primary-hover)"></span><span class="token-name">#1A2B1F</span></td><td>حالة hover للأزرار الأساسية</td><td>—</td></tr>
+        <tr><td class="token-name">color-secondary</td><td><span class="token-swatch" style="background:var(--fresh-leaf)"></span><span class="token-name">#6B8E4E</span></td><td>عناصر ثانوية، حالة نجاح</td><td>AA على الأبيض</td></tr>
+        <tr><td class="token-name">color-accent</td><td><span class="token-swatch" style="background:var(--sun-citrus)"></span><span class="token-name">#E2932E</span></td><td>CTA، أختام، تنبيه</td><td>AA (استخدم نص غامق فوقه)</td></tr>
+        <tr><td class="token-name">color-danger</td><td><span class="token-swatch" style="background:var(--danger)"></span><span class="token-name">#B6472F</span></td><td>أخطاء، حذف، حالات فشل</td><td>AA على الأبيض</td></tr>
+        <tr><td class="token-name">color-surface</td><td><span class="token-swatch" style="background:var(--white); border-color:var(--stone)"></span><span class="token-name">#FFFDF8</span></td><td>خلفية الكروت والمودالز</td><td>—</td></tr>
+        <tr><td class="token-name">color-background</td><td><span class="token-swatch" style="background:var(--paper-husk); border-color:var(--stone)"></span><span class="token-name">#F6F1E4</span></td><td>خلفية الصفحة</td><td>—</td></tr>
+        <tr><td class="token-name">color-border</td><td><span class="token-swatch" style="background:var(--stone)"></span><span class="token-name">#DCD5C0</span></td><td>حدود الكروت والحقول</td><td>—</td></tr>
+        <tr><td class="token-name">color-text</td><td><span class="token-swatch" style="background:var(--ink)"></span><span class="token-name">#211F1A</span></td><td>النص الأساسي</td><td>AAA على الخلفية</td></tr>
+        <tr><td class="token-name">color-text-muted</td><td><span class="token-swatch" style="background:#6b6656"></span><span class="token-name">#6B6656</span></td><td>نص ثانوي، تسميات</td><td>AA على الخلفية</td></tr>
+        <tr><td class="token-name">color-disabled</td><td><span class="token-swatch" style="background:var(--stone)"></span><span class="token-name">#DCD5C0</span></td><td>عناصر غير مفعّلة</td><td>—</td></tr>
+        <tr><td class="token-name">color-focus</td><td><span class="token-swatch" style="background:var(--fresh-leaf)"></span><span class="token-name">#6B8E4E</span></td><td>حلقة الـ focus للـ keyboard</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">ملاحظة Dark Mode: نفس الـ tokens تتقلب — background يبقى Deep Grove، surface يبقى #1A2B1F، والنص يبقى Paper Husk. البنية جاهزة، التفعيل محتاج قرار عمل بس.</p>
+  </section>
+
+  <!-- ================= TYPE ================= -->
+  <section class="section">
+    <div class="eyebrow">TYPOGRAPHY</div>
+    <h2>الخطوط</h2>
+    <p>Fraunces للعناوين بطابعها الكلاسيكي شبه الزراعي، Cairo/Inter للنصوص العربية والإنجليزية في الواجهة، وIBM Plex Mono لأي بيانات: أكواد شحن، أسعار، تواريخ.</p>
+    <div class="type-row">
+      <div class="type-meta"><span class="name">Display</span><span class="spec">Fraunces / 600 / 38px</span></div>
+      <div class="t-display">من الأرض للميناء</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="name">Heading</span><span class="spec">Fraunces / 600 / 24px</span></div>
+      <div class="t-h">شحنات هذا الأسبوع</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="name">Body</span><span class="spec">Cairo / 400 / 16px</span></div>
+      <div class="t-body">نص تعريفي عادي يستخدم في الوصف والفقرات داخل المنصة.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="name">Mono / Data</span><span class="spec">IBM Plex Mono / 400 / 14px</span></div>
+      <div class="t-mono">HS-CODE: 0805.10 · 24T</div>
+    </div>
+  </section>
+
+  <!-- ================= GRID ================= -->
+  <section class="section">
+    <div class="eyebrow">GRID SYSTEM</div>
+    <h2>الجريد</h2>
+    <p>12 عمود على الديسكتوب، 8 على التابلت، 4 على الموبايل — الفراغ بين الأعمدة 8px ثابت في كل الأحجام.</p>
+
+    <div class="grid-demo desktop">
+      <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+      <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+      <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+    </div>
+    <div class="grid-caption">Desktop — 12 cols · container 1100px · margin 24px · breakpoint ≥1024px</div>
+
+    <div class="grid-demo tablet">
+      <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+      <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+    </div>
+    <div class="grid-caption">Tablet — 8 cols · margin 20px · breakpoint 768–1023px</div>
+
+    <div class="grid-demo mobile">
+      <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+    </div>
+    <div class="grid-caption">Mobile — 4 cols · margin 16px · breakpoint ≤767px</div>
+  </section>
+
+  <!-- ================= SPACING ================= -->
+  <section class="section">
+    <div class="eyebrow">SPACING SCALE</div>
+    <h2>المسافات</h2>
+    <p>مقياس مسافات بمضاعفات 4px يستخدم في كل الـ padding والـ margin — من أصغر فاصل بين أيقونة ونص لحد الفراغ بين أقسام كاملة.</p>
+    <div style="margin-top:var(--space-4)">
+      <div class="space-row"><div class="space-label">4px — space-1</div><div class="space-bar" style="width:4px"></div></div>
+      <div class="space-row"><div class="space-label">8px — space-2</div><div class="space-bar" style="width:8px"></div></div>
+      <div class="space-row"><div class="space-label">12px — space-2h</div><div class="space-bar" style="width:12px"></div></div>
+      <div class="space-row"><div class="space-label">16px — space-3</div><div class="space-bar" style="width:16px"></div></div>
+      <div class="space-row"><div class="space-label">24px — space-4</div><div class="space-bar" style="width:24px"></div></div>
+      <div class="space-row"><div class="space-label">32px — space-4h</div><div class="space-bar" style="width:32px"></div></div>
+      <div class="space-row"><div class="space-label">40px — space-5</div><div class="space-bar" style="width:40px"></div></div>
+      <div class="space-row"><div class="space-label">48px — space-5h</div><div class="space-bar" style="width:48px"></div></div>
+      <div class="space-row"><div class="space-label">64px — space-6</div><div class="space-bar" style="width:64px"></div></div>
+      <div class="space-row"><div class="space-label">80px — space-6h</div><div class="space-bar" style="width:80px"></div></div>
+      <div class="space-row"><div class="space-label">96px — space-7</div><div class="space-bar" style="width:96px"></div></div>
+      <div class="space-row"><div class="space-label">128px — space-8</div><div class="space-bar" style="width:128px"></div></div>
+    </div>
+    <p class="muted">استخدام عملي: 8/12 جوه المكونات (بين أيقونة ونص) · 16/24 بين عناصر متجاورة · 40/64 بين أقسام الصفحة · 96/128 بين أقسام الهوم بيدج الكبيرة.</p>
+  </section>
+
+  <!-- ================= RADIUS & SHADOW ================= -->
+  <section class="section">
+    <div class="eyebrow">RADIUS &amp; SHADOW</div>
+    <h2>الاستدارة والظلال</h2>
+    <p>استدارة صغيرة عمومًا — البراند واقعي ومهني مش لعوب، فمفيش استدارات كبيرة زيادة عن اللزوم.</p>
+    <div class="demo-tiles">
+      <div class="tile" style="border-radius:var(--radius-xs)">XS · 2</div>
+      <div class="tile" style="border-radius:var(--radius-s)">SM · 4</div>
+      <div class="tile" style="border-radius:var(--radius-m)">MD · 10</div>
+      <div class="tile" style="border-radius:var(--radius-l)">LG · 16</div>
+      <div class="tile" style="border-radius:var(--radius-xl)">XL · 24</div>
+      <div class="tile" style="border-radius:var(--radius-pill)">Pill</div>
+      <div class="tile" style="border-radius:50%">Circle</div>
+    </div>
+    <div class="demo-tiles">
+      <div class="tile" style="border:none; box-shadow:var(--shadow-xs)">Shadow XS</div>
+      <div class="tile" style="border:none; box-shadow:var(--shadow-sm)">Shadow SM</div>
+      <div class="tile" style="border:none; box-shadow:var(--shadow-md)">Shadow MD</div>
+      <div class="tile" style="border:none; box-shadow:var(--shadow-lg)">Shadow LG</div>
+      <div class="tile" style="border:none; box-shadow:var(--shadow-card)">Card</div>
+      <div class="tile" style="border:none; box-shadow:var(--shadow-modal)">Modal</div>
+    </div>
+  </section>
+
+  <!-- ================= BUTTONS ================= -->
+  <section class="section">
+    <div class="eyebrow">BUTTONS</div>
+    <h2>الأزرار</h2>
+    <div class="row">
+      <button class="btn btn-primary">تصدير الشحنة</button>
+      <button class="btn btn-accent">طلب عرض سعر</button>
+      <button class="btn btn-outline">عرض التفاصيل</button>
+      <button class="btn btn-ghost">إلغاء</button>
+      <button class="btn btn-disabled" disabled>غير متاح</button>
+    </div>
+  </section>
+
+  <!-- ================= FORM ================= -->
+  <section class="section">
+    <div class="eyebrow">FORM ELEMENTS</div>
+    <h2>الحقول</h2>
+    <div class="form-demo">
+      <div class="field">
+        <label>اسم المنتج</label>
+        <input type="text" placeholder="مانجو عويس">
+      </div>
+      <div class="field">
+        <label>الكمية (طن)</label>
+        <input type="text" placeholder="24">
+      </div>
+      <div class="field">
+        <label>ميناء الوجهة</label>
+        <select><option>روتردام</option><option>جدة</option><option>دبي</option></select>
+      </div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;">حفظ الطلب</button>
+    </div>
+  </section>
+
+  <!-- ================= CARDS ================= -->
+  <section class="section">
+    <div class="eyebrow">PRODUCT CARDS</div>
+    <h2>بطاقات المنتج</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="13" r="7"/><path d="M12 6c0-2 1-3 3-4"/></svg></div>
+        <div class="card-body">
+          <span class="badge badge-organic">ORGANIC</span>
+          <h3>برتقال بلدي</h3>
+          <p class="muted">قطف نوفمبر — جاهز للتصدير</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 14c0-6 5-10 14-9-1 8-6 12-14 9z"/><path d="M4 14c3 1 6 3 8 7"/></svg></div>
+        <div class="card-body">
+          <span class="badge badge-export">EXPORT</span>
+          <h3>مانجو عويس</h3>
+          <p class="muted">درجة أولى — أوروبا</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 4v2M12 18v2"/></svg></div>
+        <div class="card-body">
+          <span class="badge badge-a">GRADE A</span>
+          <h3>طماطم صوب</h3>
+          <p class="muted">تغليف خاص — شحن مبرد</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ALERTS ================= -->
+  <section class="section">
+    <div class="eyebrow">STATUS & ALERTS</div>
+    <h2>حالات النظام</h2>
+    <div style="max-width:520px; margin-top:var(--space-4)">
+      <div class="alert alert-ok">تم تأكيد الشحنة رقم CGL-1042 وجاري التحميل.</div>
+      <div class="alert alert-warn">تنبيه: شهادة الفحص الصحي تنتهي خلال 3 أيام.</div>
+      <div class="alert alert-err">فشل الدفع — راجع بيانات الفاتورة رقم INV-885.</div>
+    </div>
+  </section>
+
+  <!-- ================= TABLE ================= -->
+  <section class="section">
+    <div class="eyebrow">DATA TABLE</div>
+    <h2>جدول الشحنات</h2>
+    <table>
+      <thead>
+        <tr><th>المنتج</th><th>الكمية</th><th>الوجهة</th><th>كود الشحنة</th><th>الحالة</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>برتقال بلدي</td><td>24 طن</td><td>روتردام</td><td class="mono">CGL-1042</td><td><span class="badge badge-organic">Shipped</span></td></tr>
+        <tr><td>مانجو عويس</td><td>12 طن</td><td>جدة</td><td class="mono">CGL-1043</td><td><span class="badge badge-export">Loading</span></td></tr>
+        <tr><td>طماطم صوب</td><td>8 طن</td><td>دبي</td><td class="mono">CGL-1044</td><td><span class="badge badge-a">Pending</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ================= MORE COMPONENTS ================= -->
+  <section class="section">
+    <div class="eyebrow">MORE COMPONENTS</div>
+    <h2>مكونات إضافية</h2>
+
+    <p class="muted">Tabs</p>
+    <div class="tabs">
+      <div class="tab active">الشحنات الحالية</div>
+      <div class="tab">السجل</div>
+      <div class="tab">الفواتير</div>
+      <div class="tab">المستندات</div>
+    </div>
+
+    <p class="muted" style="margin-top:var(--space-5)">Tags</p>
+    <div class="row" style="margin-top:var(--space-2)">
+      <span class="tag">مبرد 🌡</span><span class="tag">درجة أولى</span><span class="tag">شحن بحري</span><span class="tag">أوروبا</span>
+    </div>
+
+    <p class="muted" style="margin-top:var(--space-5)">Avatars</p>
+    <div class="avatar-row">
+      <div class="avatar">أح</div>
+      <div class="avatar" style="background:var(--sun-citrus); color:var(--ink)">مك</div>
+      <div class="avatar" style="background:var(--crate-brown)">سع</div>
+    </div>
+
+    <p class="muted" style="margin-top:var(--space-5)">Progress</p>
+    <div class="progress-track"><div class="progress-fill" style="width:68%"></div></div>
+    <p class="muted" style="margin-top:4px">68% من الشحنة اتحملت</p>
+
+    <p class="muted" style="margin-top:var(--space-5)">Breadcrumb</p>
+    <div class="crumbs">الرئيسية / الشحنات / <span>CGL-1042</span></div>
+
+    <p class="muted" style="margin-top:var(--space-5)">Pagination</p>
+    <div class="pagination">
+      <div class="page-btn">‹</div>
+      <div class="page-btn active">1</div>
+      <div class="page-btn">2</div>
+      <div class="page-btn">3</div>
+      <div class="page-btn">›</div>
+    </div>
+
+    <p class="muted" style="margin-top:var(--space-5)">Tooltip</p>
+    <div class="tooltip-demo">
+      <div class="tooltip-bubble">درجة حرارة النقل: 4°م</div>
+      <button class="btn btn-outline" style="margin-top:34px">تفاصيل التبريد</button>
+    </div>
+  </section>
+
+  <!-- ================= STATES ================= -->
+  <section class="section">
+    <div class="eyebrow">EMPTY & LOADING STATES</div>
+    <h2>حالات الفراغ والتحميل</h2>
+    <div class="cards">
+      <div>
+        <p class="muted">Empty State</p>
+        <div class="state-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 7l9-4 9 4"/></svg>
+          <h3 style="font-size:15px">لسه مفيش شحنات مسجلة</h3>
+          <p class="muted">لما تضيف شحنة جديدة، هتظهر هنا.</p>
+        </div>
+      </div>
+      <div>
+        <p class="muted">Loading State</p>
+        <div class="state-box" style="text-align:right">
+          <div class="skeleton" style="width:60%"></div>
+          <div class="skeleton" style="width:90%"></div>
+          <div class="skeleton" style="width:40%"></div>
+        </div>
+      </div>
+      <div>
+        <p class="muted">Error State</p>
+        <div class="state-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <h3 style="font-size:15px">تعذر تحميل بيانات الشحنة</h3>
+          <p class="muted">تحقق من الاتصال وأعد المحاولة.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ICONS ================= -->
+  <section class="section">
+    <div class="eyebrow">ICONS</div>
+    <h2>الأيقونات</h2>
+    <p>سِت أيقونات بخط واحد (Stroke 1.5–1.6) بيغطي أساسيات نشاط الاستيراد والتصدير.</p>
+    <div class="icon-grid">
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="13" height="10" rx="1"/><path d="M16 10h3l2 3v4h-5"/><circle cx="7" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/></svg><span>شحن</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-7-10.5A5 5 0 0 1 12 6a5 5 0 0 1 7 4.5C19 16.5 12 21 12 21z"/></svg><span>عضوي</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg><span>صندوق</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h18M3 12l5-5M3 12l5 5"/></svg><span>تصدير</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9s1.3-6.5 3.8-9z"/></svg><span>موانئ</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>جودة</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v4M12 18v4M4 12H2M22 12h-2"/><path d="M7 7l-2-2M19 7l2-2M7 17l-2 2M19 17l2 2"/><circle cx="12" cy="12" r="4"/></svg><span>حرارة</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v6M16 4v6"/></svg><span>مخزن مبرد</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg><span>مزرعة</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg><span>شهادة</span></div>
+      <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5v14M7 5v14M11 5v14M13 5v14M17 5v14M21 5v14"/></svg><span>باركود</span></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>Cargill Design System · v1.0 · 2026</footer>
+
+</body>
+</html>

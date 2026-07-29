@@ -28,10 +28,10 @@ export default function CTA() {
             Our export specialists are ready to help you source premium Egyptian fruits, vegetables, frozen foods, dry foods, and canned products with international quality standards.
           </p>
           <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <Link href="/contact" className="btn-gold text-lg px-10 py-5 text-center">
+            <Link href="/contact" className="btn btn-accent text-lg px-10 py-5 text-center">
               Request a Quote
             </Link>
-            <Link href="/contact" className="btn-secondary bg-white/10 border-white text-white hover:bg-white hover:text-primary text-lg px-10 py-5 text-center">
+            <Link href="/contact" className="btn btn-outline bg-white/10 border-white text-white hover:bg-white hover:text-deep-grove text-lg px-10 py-5 text-center">
               Contact Sales
             </Link>
           </div>

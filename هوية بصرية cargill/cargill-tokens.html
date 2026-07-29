@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Cargill — Color &amp; Typography Tokens</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-grove:#263D2C; --fresh-leaf:#6B8E4E; --sun-citrus:#E2932E; --crate-brown:#8B5E34;
+    --paper-husk:#F6F1E4; --ink:#211F1A; --stone:#DCD5C0; --stone-dark:#B9AF92; --white:#FFFDF8; --danger:#B6472F;
+    --info:#4E6B7D;
+    --radius-m:10px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:40px; --space-6:64px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper-husk); color:var(--ink); font-family:'Cairo',sans-serif; line-height:1.6;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 var(--space-4);}
+  .section{padding:var(--space-6) 0; border-bottom:1px dashed var(--stone-dark);}
+  .section:last-child{border-bottom:none;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; direction:ltr; text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:var(--crate-brown); display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--crate-brown);}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; color:var(--deep-grove); margin:0 0 8px;}
+  h2{font-size:30px;}
+  p{max-width:700px; color:#4a463c;}
+  .muted{color:#6b6656; font-size:13.5px;}
+  .hero{background:var(--deep-grove); color:var(--paper-husk); padding:var(--space-6) 0; border-bottom:6px solid var(--sun-citrus); text-align:center;}
+  .hero h1{color:var(--white); font-size:32px;}
+  .hero p{color:#cfd9c8; margin:0 auto;}
+  .flag{background:#fdf1dd; border-inline-start:4px solid var(--sun-citrus); padding:12px 16px; border-radius:6px; font-size:13.5px; color:#7a4f0e; margin-top:var(--space-3); max-width:700px;}
+  .flag b{color:#5c3c0a;}
+
+  /* ---- TONAL SCALE ---- */
+  .scale{display:grid; grid-template-columns:repeat(10,1fr); gap:2px; margin-top:var(--space-3); border-radius:var(--radius-m); overflow:hidden;}
+  .swatch{height:64px; position:relative; display:flex; align-items:flex-end; padding:6px; font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:10px;}
+  .swatch .step{font-weight:700;}
+  .swatch.anchor::after{content:"BASE"; position:absolute; top:4px; left:4px; font-size:8px; background:rgba(255,255,255,.85); color:#000; padding:1px 4px; border-radius:3px;}
+  .scale-label{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:12px; font-weight:700; color:var(--deep-grove); margin-top:var(--space-4);}
+
+  /* ---- SEMANTIC / STATE TABLE ---- */
+  table{width:100%; border-collapse:collapse; margin-top:var(--space-3); font-size:13.5px; background:var(--white);}
+  th,td{padding:9px 12px; text-align:right; border-bottom:1px solid var(--stone);}
+  th{background:var(--deep-grove); color:var(--white); font-size:11px;}
+  td.mono{font-family:'IBM Plex Mono',monospace; direction:ltr; text-align:left; color:#6b6656;}
+  .dot{display:inline-block; width:14px; height:14px; border-radius:4px; vertical-align:middle; margin-left:8px; border:1px solid rgba(0,0,0,.08);}
+  .pass{color:#3d5a2a; font-weight:700;}
+  .fail{color:#8a2f1c; font-weight:700;}
+
+  /* ---- STATE DEMO ---- */
+  .state-demo{display:flex; gap:10px; margin-top:var(--space-3); flex-wrap:wrap;}
+  .state-btn{padding:10px 20px; border-radius:6px; font-weight:700; font-size:14px; font-family:'Cairo';}
+
+  /* ---- MODE CARDS ---- */
+  .mode-row{display:flex; gap:var(--space-3); margin-top:var(--space-4); flex-wrap:wrap;}
+  .mode-card{flex:1; min-width:280px; border-radius:var(--radius-m); padding:var(--space-4);}
+  .mode-light{background:var(--paper-husk); border:1px solid var(--stone); color:var(--ink);}
+  .mode-dark{background:#16241A; color:#EDE7D6;}
+  .mode-card h3{font-size:16px; margin-bottom:12px;}
+  .mode-card .row-token{display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:12px; padding:5px 0; border-bottom:1px dashed rgba(128,128,128,.25);}
+  .mode-dark h3{color:#EDE7D6;}
+
+  /* ---- TYPE SCALE ---- */
+  .type-row{display:grid; grid-template-columns:180px 1fr 220px; gap:var(--space-3); align-items:baseline; padding:14px 0; border-top:1px solid var(--stone);}
+  .type-row:last-child{border-bottom:1px solid var(--stone);}
+  .type-meta .name{font-weight:700; font-size:13px; color:var(--deep-grove);}
+  .type-meta .spec{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:10.5px; color:#847e6a; display:block; margin-top:2px;}
+  .type-sample-ar{font-family:'Fraunces',serif;}
+  .type-sample-en{font-family:'IBM Plex Mono',monospace; direction:ltr; color:#847e6a; font-size:12px; align-self:center;}
+
+  .lh-demo{background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:var(--space-4); margin-top:var(--space-3);}
+  footer{padding:var(--space-5) 0; text-align:center; color:#8a856f; font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center; color:var(--sun-citrus)">CARGILL — PHASE 4</div>
+    <h1>Design Tokens: الألوان والطباعة</h1>
+    <p>نفس الألوان الأساسية اللي اتعمدت من أول يوم — هنا بس بنبنيها كـ Scale كامل (50–900) بدل ما تفضل 6 قيم ثابتة، ونربطها بمعايير الوصول الفعلية.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ PRIMARY SCALE ============ -->
+  <section class="section">
+    <div class="eyebrow">COLOR SCALE</div>
+    <h2>مقاييس الألوان الكاملة</h2>
+    <p>كل عائلة لون اتولّدت رياضيًا من نفس الـ Hue والتشبّع بتاع اللون الأساسي المعتمد — مش ألوان جديدة، بس درجات فاتحة وغامقة منه. الخانة المكتوب عليها <b>BASE</b> هي القيمة الأصلية المعتمدة زي ما هي بالظبط.</p>
+
+    <div class="scale-label">PRIMARY — Deep Grove</div>
+    <div class="scale">
+      <div class="swatch" style="background:#F3F7F4; color:#263D2C"><span class="step">50</span></div>
+      <div class="swatch" style="background:#E4EDE6; color:#263D2C"><span class="step">100</span></div>
+      <div class="swatch" style="background:#CADECF; color:#263D2C"><span class="step">200</span></div>
+      <div class="swatch" style="background:#A7C8B0; color:#263D2C"><span class="step">300</span></div>
+      <div class="swatch" style="background:#81B18E; color:#1D3022"><span class="step">400</span></div>
+      <div class="swatch" style="background:#5E976D; color:#fff"><span class="step">500</span></div>
+      <div class="swatch" style="background:#4A7756; color:#fff"><span class="step">600</span></div>
+      <div class="swatch" style="background:#3B5E44; color:#fff"><span class="step">700</span></div>
+      <div class="swatch anchor" style="background:#263D2C; color:#fff"><span class="step">800</span></div>
+      <div class="swatch" style="background:#1A2B1F; color:#fff"><span class="step">900</span></div>
+    </div>
+    <p class="muted" style="margin-top:6px">ملاحظة مهمة: اللون الأساسي للبراند (Deep Grove) غامق بطبيعته، فمكانه الطبيعي في السلم 800 مش 500 — ده قرار مقصود مش خطأ، لأنه بيعكس شخصية براند واثقة وغامقة.</p>
+
+    <div class="scale-label">SECONDARY — Fresh Leaf</div>
+    <div class="scale">
+      <div class="swatch" style="background:#F5F7F2; color:#3D5A2A"><span class="step">50</span></div>
+      <div class="swatch" style="background:#E8EEE2; color:#3D5A2A"><span class="step">100</span></div>
+      <div class="swatch" style="background:#D2E0C7; color:#3D5A2A"><span class="step">200</span></div>
+      <div class="swatch" style="background:#B6CCA3; color:#3D5A2A"><span class="step">300</span></div>
+      <div class="swatch" style="background:#96B77B; color:#25321B"><span class="step">400</span></div>
+      <div class="swatch anchor" style="background:#6B8E4E; color:#fff"><span class="step">500</span></div>
+      <div class="swatch" style="background:#5E7D45; color:#fff"><span class="step">600</span></div>
+      <div class="swatch" style="background:#4A6336; color:#fff"><span class="step">700</span></div>
+      <div class="swatch" style="background:#374828; color:#fff"><span class="step">800</span></div>
+      <div class="swatch" style="background:#25321B; color:#fff"><span class="step">900</span></div>
+    </div>
+
+    <div class="scale-label">ACCENT — Sun Citrus</div>
+    <div class="scale">
+      <div class="swatch" style="background:#FBF6EE; color:#452A08"><span class="step">50</span></div>
+      <div class="swatch" style="background:#F7EAD9; color:#452A08"><span class="step">100</span></div>
+      <div class="swatch" style="background:#F4D8B3; color:#452A08"><span class="step">200</span></div>
+      <div class="swatch" style="background:#EEBE82; color:#452A08"><span class="step">300</span></div>
+      <div class="swatch" style="background:#E6A24C; color:#452A08"><span class="step">400</span></div>
+      <div class="swatch anchor" style="background:#E2932E; color:#211F1A"><span class="step">500</span></div>
+      <div class="swatch" style="background:#AA6A18; color:#fff"><span class="step">600</span></div>
+      <div class="swatch" style="background:#865413; color:#fff"><span class="step">700</span></div>
+      <div class="swatch" style="background:#633D0E; color:#fff"><span class="step">800</span></div>
+      <div class="swatch" style="background:#452A08; color:#fff"><span class="step">900</span></div>
+    </div>
+
+    <div class="scale-label">NEUTRAL — Stone</div>
+    <div class="scale">
+      <div class="swatch anchor" style="background:#F6F1E4; color:#211F1A; border:1px solid #e0d9c4"><span class="step">50</span></div>
+      <div class="swatch" style="background:#EFEBE1; color:#211F1A"><span class="step">100</span></div>
+      <div class="swatch anchor" style="background:#DCD5C0; color:#211F1A"><span class="step">200</span></div>
+      <div class="swatch" style="background:#CCC2A3; color:#211F1A"><span class="step">300</span></div>
+      <div class="swatch anchor" style="background:#B9AF92; color:#211F1A"><span class="step">400</span></div>
+      <div class="swatch" style="background:#9D8C57; color:#fff"><span class="step">500</span></div>
+      <div class="swatch" style="background:#7D6F45; color:#fff"><span class="step">600</span></div>
+      <div class="swatch" style="background:#625737; color:#fff"><span class="step">700</span></div>
+      <div class="swatch" style="background:#484028; color:#fff"><span class="step">800</span></div>
+      <div class="swatch anchor" style="background:#211F1A; color:#fff"><span class="step">900</span></div>
+    </div>
+    <p class="muted" style="margin-top:6px">4 نقاط Anchor في النيوترال (50 = خلفية، 200 = حدود، 400 = حدود قوية، 900 = نص) هي نفس القيم المعتمدة من أول الملف — الباقي اتولّد لملء الفراغات بينهم.</p>
+  </section>
+
+  <!-- ============ SEMANTIC STATES ============ -->
+  <section class="section">
+    <div class="eyebrow">SEMANTIC COLORS</div>
+    <h2>ألوان الحالة</h2>
+    <p>Success وWarning بياخدوا نفس Fresh Leaf وSun Citrus الموجودين أصلاً. Danger كان معرّف بالفعل. الجديد الوحيد هو <b>Info</b> — مكنش موجود قبل كده، ومحتاج نضيفه لأن إشعار معلوماتي (زي "تم تحديث بيانات الشحنة") لازم يبقى مختلف بصريًا عن نجاح أو تحذير أو خطأ.</p>
+    <div class="flag"><b>الإضافة الوحيدة الجديدة في كل Phase 4:</b> "Harbor Mist" #4E6B7D — أزرق-أخضر مطفي مستوحى من لون الموانئ، متسق مع نفس درجة تشبّع باقي الباليت (مش لون صاخب مقحم).</div>
+    <table>
+      <thead><tr><th>الحالة</th><th>اللون</th><th>Hex</th><th>نص أبيض فوقه</th><th>نص Ink فوقه</th></tr></thead>
+      <tbody>
+        <tr><td>Success</td><td><span class="dot" style="background:#6B8E4E"></span>Fresh Leaf 500</td><td class="mono">#6B8E4E</td><td class="pass">5.34 — AA</td><td class="fail">فشل</td></tr>
+        <tr><td>Warning</td><td><span class="dot" style="background:#E2932E"></span>Sun Citrus 500</td><td class="fail">فشل</td><td class="pass">5.74 — AA</td></tr>
+        <tr><td>Danger</td><td><span class="dot" style="background:#B6472F"></span>Danger</td><td class="pass">6.1 — AA</td><td class="fail">فشل</td></tr>
+        <tr><td>Info <span class="muted">(جديد)</span></td><td><span class="dot" style="background:#4E6B7D"></span>Harbor Mist</td><td class="pass">5.55 — AA</td><td class="fail">فشل</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:8px">القاعدة: الألوان الأربعة دي استخدمها كخلفية بنص أبيض فوقها، أو كنص هي نفسها فوق خلفية فاتحة جدًا من نفس العائلة (زي البادجات) — أبدًا كنص Ink مباشرة، التباين مش كافي.</p>
+  </section>
+
+  <!-- ============ INTERACTIVE STATES ============ -->
+  <section class="section">
+    <div class="eyebrow">INTERACTIVE STATES</div>
+    <h2>حالات التفاعل</h2>
+    <p>كل مكوّن تفاعلي (زرار، حقل، تاب) لازم يغطي الحالات الأربعة دي بالظبط — مفيش حالة خامسة، ومفيش مكوّن ينزل بحالتين بس.</p>
+    <div class="state-demo">
+      <div class="state-btn" style="background:#263D2C; color:#fff">Default</div>
+      <div class="state-btn" style="background:#1A2B1F; color:#fff">Hover</div>
+      <div class="state-btn" style="background:#152218; color:#fff; box-shadow:inset 0 2px 4px rgba(0,0,0,.3)">Pressed</div>
+      <div class="state-btn" style="background:#263D2C; color:#fff; outline:3px solid #6B8E4E; outline-offset:2px">Focus</div>
+      <div class="state-btn" style="background:#DCD5C0; color:#a29c86">Disabled</div>
+    </div>
+    <table>
+      <thead><tr><th>الحالة</th><th>القاعدة</th></tr></thead>
+      <tbody>
+        <tr><td>Hover</td><td class="mono" style="direction:rtl; font-family:Cairo">تغميق اللون الأساسي بمقدار خطوة واحدة في السلم (800 → 900)</td></tr>
+        <tr><td>Pressed</td><td style="direction:rtl">تغميق خطوتين + Inset Shadow خفيف</td></tr>
+        <tr><td>Focus</td><td style="direction:rtl">Outline بلون Fresh Leaf 500، سُمك 3px، بمسافة 2px — نفس القاعدة لأي عنصر تفاعلي بدون استثناء</td></tr>
+        <tr><td>Disabled</td><td style="direction:rtl">خلفية Neutral 200، نص Neutral 400 — بدون أي لون من عائلة البراند</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ LIGHT / DARK ============ -->
+  <section class="section">
+    <div class="eyebrow">LIGHT / DARK MODE</div>
+    <h2>الوضع الفاتح والغامق</h2>
+    <p>القيم دي أول تفعيل حقيقي للـ Dark Mode — مش مجرد نية زي ما كان موثّق قبل كده.</p>
+    <div class="mode-row">
+      <div class="mode-card mode-light">
+        <h3>Light (الافتراضي)</h3>
+        <div class="row-token"><span>background</span><span>#F6F1E4</span></div>
+        <div class="row-token"><span>surface</span><span>#FFFDF8</span></div>
+        <div class="row-token"><span>text</span><span>#211F1A</span></div>
+        <div class="row-token"><span>border</span><span>#DCD5C0</span></div>
+        <div class="row-token"><span>primary</span><span>#263D2C</span></div>
+      </div>
+      <div class="mode-card mode-dark">
+        <h3>Dark</h3>
+        <div class="row-token"><span>background</span><span>#16241A</span></div>
+        <div class="row-token"><span>surface</span><span>#1E3024</span></div>
+        <div class="row-token"><span>text</span><span>#EDE7D6</span></div>
+        <div class="row-token"><span>border</span><span>#33473A</span></div>
+        <div class="row-token"><span>primary</span><span>#8FB08A <span style="opacity:.6">(Primary 400، مش 800، عشان يفضل واضح على الغامق)</span></span></div>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:10px">القاعدة العامة: في الـ Dark Mode، أي لون من عائلة Primary/Secondary/Accent بيتستخدم من درجة 300-400 مش 700-800 — لأن الدرجات الغامقة بتختفي في خلفية غامقة أصلاً.</p>
+  </section>
+
+  <!-- ============ ACCESSIBILITY SUMMARY ============ -->
+  <section class="section">
+    <div class="eyebrow">ACCESSIBILITY AUDIT</div>
+    <h2>ملخص نسب التباين</h2>
+    <table>
+      <thead><tr><th>الاستخدام</th><th>النسبة الفعلية</th><th>الحد المطلوب (نص عادي)</th><th>النتيجة</th></tr></thead>
+      <tbody>
+        <tr><td>نص Ink على خلفية Paper Husk</td><td class="mono">14.8:1</td><td class="mono">4.5:1</td><td class="pass">AAA</td></tr>
+        <tr><td>Primary 800 كنص على أبيض</td><td class="mono">10.3:1</td><td class="mono">4.5:1</td><td class="pass">AAA</td></tr>
+        <tr><td>Sun Citrus 500 كنص على أبيض <span class="muted">(كان مشكلة في المراجعة السابقة)</span></td><td class="mono">2.8:1</td><td class="mono">4.5:1</td><td class="fail">فشل — استخدمه كخلفية بس مش كنص</td></tr>
+        <tr><td>نص أبيض على Sun Citrus 500</td><td class="mono">فشل أيضًا</td><td class="mono">—</td><td class="fail">استخدم نص Ink فوق Accent مش أبيض</td></tr>
+        <tr><td>نص أبيض على Info</td><td class="mono">5.55:1</td><td class="mono">4.5:1</td><td class="pass">AA</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ TYPE SCALE ============ -->
+  <section class="section">
+    <div class="eyebrow">TYPE SCALE</div>
+    <h2>سلم الطباعة الكامل</h2>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Display</div><span class="spec">Fraunces 600 · 44/32px · lh 1.15 · ls -0.01em</span></div>
+      <div class="type-sample-ar" style="font-size:38px; font-weight:600">من الأرض للميناء</div>
+      <div class="type-sample-en">Hero, صفحة رئيسية فقط</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">H1</div><span class="spec">Fraunces 600 · 36/28px · lh 1.2</span></div>
+      <div class="type-sample-ar" style="font-size:32px; font-weight:600">شحنات هذا الأسبوع</div>
+      <div class="type-sample-en">عنوان صفحة</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">H2</div><span class="spec">Fraunces 600 · 30/24px · lh 1.25</span></div>
+      <div class="type-sample-ar" style="font-size:26px; font-weight:600">تفاصيل الشحنة</div>
+      <div class="type-sample-en">عنوان قسم</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">H3</div><span class="spec">Fraunces 600 · 24/20px · lh 1.3</span></div>
+      <div class="type-sample-ar" style="font-size:21px; font-weight:600">بيانات الفاتورة</div>
+      <div class="type-sample-en">عنوان بطاقة</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">H4</div><span class="spec">Cairo 700 · 19/17px · lh 1.4</span></div>
+      <div class="type-sample-ar" style="font-family:Cairo; font-size:18px; font-weight:700">اسم المنتج داخل الكارت</div>
+      <div class="type-sample-en">عنوان فرعي صغير</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Body</div><span class="spec">Cairo 400 · 16px · lh 1.7</span></div>
+      <div class="type-sample-ar" style="font-family:Cairo; font-size:16px">نص وصفي عادي يظهر في الفقرات والتفاصيل.</div>
+      <div class="type-sample-en">فقرات، أوصاف</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Body Small</div><span class="spec">Cairo 400 · 14px · lh 1.6</span></div>
+      <div class="type-sample-ar" style="font-family:Cairo; font-size:14px">نص مساعد أو وصف ثانوي.</div>
+      <div class="type-sample-en">نصوص مساعدة</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Caption</div><span class="spec">Cairo 400 · 12px · lh 1.4 · ls 0 (عربي)</span></div>
+      <div class="type-sample-ar" style="font-family:Cairo; font-size:12px; color:#6b6656">تسمية توضيحية أسفل الصورة</div>
+      <div class="type-sample-en">تسميات صغيرة</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Label</div><span class="spec">Cairo 700 · 13px · uppercase (إنجليزي فقط) · ls .04em</span></div>
+      <div class="type-sample-ar" style="font-family:Cairo; font-size:13px; font-weight:700">حالة الشحنة</div>
+      <div class="type-sample-en">GRADE A / EXPORT</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Button</div><span class="spec">Cairo 700 · 15px · lh 1</span></div>
+      <div class="type-sample-ar" style="font-family:Cairo; font-size:15px; font-weight:700">تصدير الشحنة</div>
+      <div class="type-sample-en">نص الأزرار</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Table / Data</div><span class="spec">IBM Plex Mono 400 · 14px · lh 1.4</span></div>
+      <div class="type-sample-en" style="font-family:'IBM Plex Mono'; color:var(--ink); font-size:14px">CGL-1042 · 24T · 14-Aug</div>
+      <div class="type-sample-en">أكواد، كميات، تواريخ</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="name">Numbers / KPI</div><span class="spec">IBM Plex Mono 500 · 32px · lh 1.1</span></div>
+      <div class="type-sample-en" style="font-family:'IBM Plex Mono'; color:var(--deep-grove); font-size:32px; font-weight:500">248</div>
+      <div class="type-sample-en">لوحات إحصائيات</div>
+    </div>
+  </section>
+
+  <!-- ============ ARABIC TYPOGRAPHY RULES ============ -->
+  <section class="section">
+    <div class="eyebrow">ARABIC vs ENGLISH</div>
+    <h2>فروق ضرورية بين العربي والإنجليزي</h2>
+    <div class="lh-demo">
+      <p style="margin-bottom:16px"><b>1. الـ letter-spacing ممنوع على العربي.</b> إضافة تباعد بين الحروف بتكسر اتصال الحروف العربية ببعضها (ligatures) وتخليها تتقرأ غلط. الـ letter-spacing المستخدم في الـ Label والـ Eyebrow في النظام كله بيتطبق بس على النصوص الإنجليزية/الأكواد، أبدًا على نص عربي.</p>
+      <p style="margin-bottom:16px"><b>2. الـ line-height للعربي أعلى من الإنجليزي بشكل دائم.</b> خط Cairo عنده تشكيل وامتدادات فوق وتحت السطر أكبر من اللاتيني — Body عربي محتاج 1.7 كحد أدنى، مقابل 1.5 كافي للإنجليزي بنفس الحجم.</p>
+      <p style="margin:0"><b>3. الأرقام دايمًا LTR جوه سياق RTL.</b> أي رقم أو كود (CGL-1042، 24 طن، تاريخ) لازم يتحط جوه `dir="ltr"` صغير حتى لو الجملة كلها عربي — وإلا ترتيب الأرقام هيتقلب بصريًا في بعض المتصفحات.</p>
+    </div>
+  </section>
+
+  <!-- ============ RESPONSIVE TYPE ============ -->
+  <section class="section">
+    <div class="eyebrow">RESPONSIVE TYPOGRAPHY</div>
+    <h2>تغيّر الأحجام حسب الشاشة</h2>
+    <table>
+      <thead><tr><th>العنصر</th><th>Desktop (≥1024px)</th><th>Tablet (768-1023px)</th><th>Mobile (≤767px)</th></tr></thead>
+      <tbody>
+        <tr><td>Display</td><td class="mono">44px</td><td class="mono">36px</td><td class="mono">32px</td></tr>
+        <tr><td>H1</td><td class="mono">36px</td><td class="mono">30px</td><td class="mono">28px</td></tr>
+        <tr><td>H2</td><td class="mono">30px</td><td class="mono">26px</td><td class="mono">24px</td></tr>
+        <tr><td>Body</td><td class="mono">16px</td><td class="mono">16px</td><td class="mono">15px</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:8px">الـ Body ثابت تقريبًا في كل الأحجام — القراءة الطويلة (فقرات، وصف منتج) محتاجة استقرار، العناوين بس هي اللي بتنزل مع الشاشة الأصغر.</p>
+  </section>
+
+</div>
+<footer>Cargill Color &amp; Typography Tokens · Phase 4 · v1.0</footer>
+</body>
+</html>

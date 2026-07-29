@@ -10,6 +10,21 @@ export const metadata: Metadata = {
   title: seoData.about.title,
   description: seoData.about.description,
   keywords: seoData.about.keywords,
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: seoData.about.title,
+    description: seoData.about.description,
+    url: "/about",
+    siteName: "CARGILL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seoData.about.title,
+    description: seoData.about.description,
+  },
 }
 
 export default function AboutPage() {

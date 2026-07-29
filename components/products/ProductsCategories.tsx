@@ -3,10 +3,14 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import { productCategories } from "@/lib/products"
+import type { ProductCategory } from "@/lib/products"
 import { FiArrowRight } from "react-icons/fi"
 
-export default function ProductsCategories() {
+interface ProductsCategoriesProps {
+  categories: ProductCategory[]
+}
+
+export default function ProductsCategories({ categories }: ProductsCategoriesProps) {
   return (
     <section id="categories" className="py-20 bg-gray-50">
       <div className="container-main">
@@ -28,7 +32,7 @@ export default function ProductsCategories() {
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {productCategories.map((category, index) => (
+          {categories.map((category, index) => (
             <motion.div
               key={category.id}
               initial={{ opacity: 0, y: 20 }}

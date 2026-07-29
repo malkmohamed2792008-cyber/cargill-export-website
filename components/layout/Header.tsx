@@ -41,10 +41,10 @@ export default function Header() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-deep-grove rounded-lg flex items-center justify-center">
               <span className="text-white font-heading font-bold text-xl">C</span>
             </div>
-            <span className="font-heading text-2xl font-bold text-primary">
+            <span className="font-heading text-2xl font-bold text-deep-grove">
               {companyInfo.name}
             </span>
           </Link>
@@ -57,15 +57,13 @@ export default function Header() {
                 href={link.href}
                 className={`relative font-medium text-sm uppercase tracking-wide transition-colors duration-200 ${
                   pathname === link.href
-                    ? "text-primary"
-                    : isScrolled
-                    ? "text-foreground hover:text-primary"
-                    : "text-foreground hover:text-primary"
+                    ? "text-deep-grove"
+                    : "text-ink hover:text-deep-grove"
                 }`}
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-accent transition-all duration-300 ${
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-sun-citrus transition-all duration-300 ${
                     pathname === link.href ? "w-full" : "w-0"
                   }`}
                 />
@@ -75,14 +73,14 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Link href="/contact" className="btn-primary">
+            <Link href="/contact" className="btn btn-primary">
               Get In Touch
             </Link>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-foreground"
+            className="md:hidden p-2 text-ink"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -117,8 +115,8 @@ export default function Header() {
                     href={link.href}
                     className={`font-heading text-2xl font-semibold ${
                       pathname === link.href
-                        ? "text-primary"
-                        : "text-foreground"
+                        ? "text-deep-grove"
+                        : "text-ink"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -133,7 +131,7 @@ export default function Header() {
               >
                 <Link
                   href="/contact"
-                  className="btn-primary mt-4"
+                  className="btn btn-primary mt-4"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get In Touch

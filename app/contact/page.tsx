@@ -7,6 +7,21 @@ export const metadata: Metadata = {
   title: seoData.contact.title,
   description: seoData.contact.description,
   keywords: seoData.contact.keywords,
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: seoData.contact.title,
+    description: seoData.contact.description,
+    url: "/contact",
+    siteName: "CARGILL",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seoData.contact.title,
+    description: seoData.contact.description,
+  },
 }
 
 export default function ContactPage() {
@@ -51,11 +66,14 @@ export default function ContactPage() {
 
       {/* Map Section */}
       <section className="h-[400px] bg-background-alt">
-        <div className="w-full h-full flex items-center justify-center bg-primary-dark/5">
-          <div className="text-center">
-            <p className="text-foreground-secondary mb-2">Cairo, Egypt</p>
-            <p className="text-foreground-muted text-sm">Map integration available upon deployment</p>
-          </div>
+        <div className="w-full h-full">
+          <iframe
+            title="CARGILL office location in Cairo, Egypt"
+            src="https://www.google.com/maps?q=Cairo%2C%20Egypt&output=embed"
+            className="w-full h-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
       </section>
     </>

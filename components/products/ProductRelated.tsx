@@ -2,17 +2,15 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import Image from "next/image"
-import { Product, getRelatedProducts } from "@/lib/products"
+import type { Product } from "@/lib/products"
 import { FiArrowRight } from "react-icons/fi"
+import ProductCard from "./ProductCard"
 
 interface ProductRelatedProps {
-  product: Product
+  relatedProducts: Product[]
 }
 
-export default function ProductRelated({ product }: ProductRelatedProps) {
-  const relatedProducts = getRelatedProducts(product, 4)
-
+export default function ProductRelated({ relatedProducts }: ProductRelatedProps) {
   if (relatedProducts.length === 0) return null
 
   return (
@@ -42,26 +40,7 @@ export default function ProductRelated({ product }: ProductRelatedProps) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Link href={`/products/${related.slug}`} className="group block">
-                <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={related.image}
-                      alt={related.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-heading text-lg font-semibold text-primary-dark mb-1 group-hover:text-primary transition-colors">
-                      {related.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 line-clamp-2">
-                      {related.shortDescription}
-                    </p>
-                  </div>
-                </div>
-              </Link>
+              <ProductCard product={related} />
             </motion.div>
           ))}
         </div>

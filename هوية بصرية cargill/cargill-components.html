@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Cargill — Component Library</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-grove:#263D2C; --fresh-leaf:#6B8E4E; --sun-citrus:#E2932E; --crate-brown:#8B5E34;
+    --paper-husk:#F6F1E4; --ink:#211F1A; --stone:#DCD5C0; --stone-dark:#B9AF92; --white:#FFFDF8; --danger:#B6472F; --info:#4E6B7D;
+    --radius-s:4px; --radius-m:10px; --radius-l:16px;
+    --space-2:8px; --space-3:16px; --space-4:24px; --space-5:40px; --space-6:64px;
+    --shadow-md:0 6px 16px rgba(33,31,26,.10); --shadow-modal:0 24px 64px rgba(33,31,26,.28);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper-husk); color:var(--ink); font-family:'Cairo',sans-serif; line-height:1.6;}
+  .l-wrap{max-width:1160px; margin:0 auto; padding:0 var(--space-4);}
+  .l-section{padding:var(--space-6) 0; border-bottom:1px dashed var(--stone-dark);}
+  .l-section:last-child{border-bottom:none;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace; direction:ltr; text-transform:uppercase; letter-spacing:.12em; font-size:12px; color:var(--crate-brown); display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--crate-brown);}
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; color:var(--deep-grove); margin:0 0 8px;}
+  h2{font-size:28px;}
+  p{max-width:700px; color:#4a463c;}
+  .muted{color:#6b6656; font-size:13.5px; margin-top:6px;}
+  .hero{background:var(--deep-grove); color:var(--paper-husk); padding:var(--space-6) 0; border-bottom:6px solid var(--sun-citrus); text-align:center;}
+  .hero h1{color:var(--white); font-size:32px;}
+  .hero p{color:#cfd9c8; margin:0 auto;}
+  .flag{background:#fdf1dd; border-inline-start:4px solid var(--sun-citrus); padding:12px 16px; border-radius:6px; font-size:13.5px; color:#7a4f0e; margin-top:var(--space-3); max-width:760px;}
+  .u-row{display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:flex-start; margin-top:var(--space-4);}
+  .u-label-sm{font-family:'IBM Plex Mono',monospace; direction:ltr; font-size:11px; color:#847e6a; display:block; margin-bottom:6px;}
+
+  .c-checkbox, .c-radio{display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;}
+  .c-checkbox input, .c-radio input{width:18px; height:18px; accent-color:var(--deep-grove);}
+  .c-checkbox.is-disabled, .c-radio.is-disabled{color:var(--stone-dark); cursor:not-allowed;}
+  .c-switch{position:relative; display:inline-block; width:42px; height:24px;}
+  .c-switch input{opacity:0; width:0; height:0;}
+  .c-switch .track{position:absolute; inset:0; background:var(--stone); border-radius:999px; transition:.2s;}
+  .c-switch .track::before{content:""; position:absolute; width:18px; height:18px; left:3px; top:3px; background:var(--white); border-radius:50%; transition:.2s;}
+  .c-switch input:checked + .track{background:var(--fresh-leaf);}
+  .c-switch input:checked + .track::before{transform:translateX(-18px);}
+  .c-switch input:disabled + .track{opacity:.5;}
+
+  .c-textarea{width:100%; max-width:420px; min-height:100px; padding:10px 12px; border:1.5px solid var(--stone-dark); border-radius:var(--radius-s); font-family:'Cairo'; font-size:14px; background:var(--white); resize:vertical;}
+  .c-textarea:focus{outline:2px solid var(--fresh-leaf); outline-offset:1px; border-color:var(--fresh-leaf);}
+  .c-textarea.is-error{border-color:var(--danger);}
+  .c-error-msg{color:var(--danger); font-size:12px; margin-top:4px;}
+  .c-search{display:flex; align-items:center; gap:8px; background:var(--white); border:1.5px solid var(--stone-dark); border-radius:999px; padding:8px 14px; max-width:320px;}
+  .c-search input{border:none; outline:none; background:transparent; font-family:'Cairo'; font-size:14px; flex:1;}
+  .c-search svg{width:16px; height:16px; color:#847e6a; flex-shrink:0;}
+
+  .c-accordion{max-width:520px; border:1px solid var(--stone); border-radius:var(--radius-m); overflow:hidden; background:var(--white);}
+  .c-accordion-item + .c-accordion-item{border-top:1px solid var(--stone);}
+  .c-accordion-item summary{padding:14px 16px; font-weight:700; font-size:14px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; list-style:none;}
+  .c-accordion-item summary::-webkit-details-marker{display:none;}
+  .c-accordion-item summary::after{content:"+"; color:var(--sun-citrus); font-size:18px;}
+  .c-accordion-item[open] summary::after{content:"–";}
+  .c-accordion-item .body{padding:0 16px 16px; font-size:13.5px; color:#4a463c;}
+
+  .c-toast{display:flex; align-items:center; gap:10px; background:var(--deep-grove); color:var(--white); padding:12px 16px; border-radius:var(--radius-s); font-size:13.5px; box-shadow:var(--shadow-md); max-width:340px;}
+  .c-toast.is-success{background:#3d5a2a;}
+  .c-toast.is-error{background:var(--danger);}
+  .c-toast.is-info{background:var(--info);}
+  .c-toast .dot{width:8px; height:8px; border-radius:50%; background:var(--sun-citrus); flex-shrink:0;}
+
+  .c-modal-preview{position:relative; background:#00000055; border-radius:var(--radius-m); padding:var(--space-5); display:flex; justify-content:center;}
+  .c-modal{background:var(--white); border-radius:var(--radius-m); box-shadow:var(--shadow-modal); width:340px; overflow:hidden;}
+  .c-modal-header{padding:16px; border-bottom:1px solid var(--stone); font-weight:700; display:flex; justify-content:space-between;}
+  .c-modal-body{padding:16px; font-size:13.5px; color:#4a463c;}
+  .c-modal-footer{padding:12px 16px; display:flex; gap:8px; justify-content:flex-end; border-top:1px solid var(--stone);}
+
+  .c-drawer-preview{background:var(--stone); border-radius:var(--radius-m); height:220px; position:relative; overflow:hidden;}
+  .c-drawer{position:absolute; inset-inline-end:0; top:0; bottom:0; width:55%; background:var(--white); box-shadow:var(--shadow-modal); padding:16px;}
+
+  .c-btn{font-family:'Cairo'; font-weight:700; font-size:14px; padding:10px 20px; border-radius:var(--radius-s); border:none; cursor:pointer;}
+  .c-btn--primary{background:var(--deep-grove); color:var(--white);}
+  .c-btn--ghost{background:transparent; color:var(--crate-brown);}
+
+  .c-shell{border:1px solid var(--stone); border-radius:var(--radius-m); overflow:hidden; margin-top:var(--space-4);}
+  .c-topbar{background:var(--white); border-bottom:1px solid var(--stone); padding:12px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .c-topbar .brand{font-family:'Fraunces'; font-weight:600; color:var(--deep-grove); font-size:16px;}
+  .c-topbar .user{width:30px; height:30px; border-radius:50%; background:var(--fresh-leaf); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;}
+  .c-shell-body{display:flex; min-height:220px;}
+  .c-sidebar{width:170px; background:var(--deep-grove); padding:16px 10px; flex-shrink:0;}
+  .c-nav-item{display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:6px; color:#cfd9c8; font-size:13.5px; margin-bottom:4px;}
+  .c-nav-item.is-active{background:rgba(255,255,255,.12); color:var(--white); font-weight:700; border-inline-start:3px solid var(--sun-citrus);}
+  .c-content{flex:1; padding:20px; background:var(--paper-husk);}
+  .c-footer{background:var(--white); border-top:1px solid var(--stone); padding:14px 20px; display:flex; justify-content:space-between; font-size:12px; color:#847e6a;}
+
+  .c-stat-card{background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:16px; min-width:150px;}
+  .c-stat-card .label{font-size:12px; color:#847e6a;}
+  .c-stat-card .value{font-family:'IBM Plex Mono'; direction:ltr; font-size:26px; color:var(--deep-grove); font-weight:500; margin-top:4px;}
+  .c-stat-card .trend{font-size:11px; font-family:'IBM Plex Mono'; direction:ltr; margin-top:4px;}
+  .c-stat-card .trend.up{color:#3d5a2a;}
+  .c-stat-card .trend.down{color:var(--danger);}
+
+  .c-chart-bars{display:flex; align-items:flex-end; gap:10px; height:140px; margin-top:var(--space-3);}
+  .c-chart-bars .bar{width:28px; background:var(--fresh-leaf); border-radius:4px 4px 0 0; position:relative;}
+  .c-chart-bars .bar span{position:absolute; bottom:-20px; right:50%; transform:translateX(50%); font-family:'IBM Plex Mono'; direction:ltr; font-size:10px; color:#847e6a;}
+
+  .c-calendar{background:var(--white); border:1px solid var(--stone); border-radius:var(--radius-m); padding:14px; max-width:260px;}
+  .c-calendar .cal-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-weight:700; font-size:13px;}
+  .c-calendar .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; font-size:11px;}
+  .c-calendar .cal-day{padding:6px 0; border-radius:6px; color:#4a463c;}
+  .c-calendar .cal-day.is-selected{background:var(--deep-grove); color:var(--white); font-weight:700;}
+  .c-calendar .cal-day.is-disabled{color:var(--stone-dark);}
+  .c-calendar .cal-day.is-muted{color:var(--stone-dark);}
+
+  .c-upload{border:2px dashed var(--stone-dark); border-radius:var(--radius-m); padding:28px; text-align:center; max-width:420px; background:var(--white);}
+  .c-upload svg{width:28px; height:28px; color:var(--stone-dark); margin-bottom:8px;}
+  .c-file-chip{display:flex; align-items:center; justify-content:space-between; background:var(--paper-husk); border:1px solid var(--stone); border-radius:var(--radius-s); padding:8px 12px; font-size:12.5px; margin-top:8px; max-width:420px;}
+  .c-file-chip .mono{font-family:'IBM Plex Mono'; direction:ltr; color:#6b6656;}
+
+  .c-filter-bar{display:flex; gap:8px; flex-wrap:wrap; margin-top:var(--space-3);}
+  .c-filter-chip{background:var(--white); border:1.5px solid var(--stone-dark); border-radius:999px; padding:6px 14px; font-size:12.5px;}
+  .c-filter-chip.is-active{background:var(--deep-grove); color:var(--white); border-color:var(--deep-grove);}
+
+  table{width:100%; border-collapse:collapse; margin-top:var(--space-3); font-size:13px; background:var(--white);}
+  th,td{padding:8px 10px; text-align:right; border-bottom:1px solid var(--stone);}
+  th{background:var(--deep-grove); color:var(--white); font-size:10.5px;}
+
+  footer.page-footer{padding:var(--space-5) 0; text-align:center; color:#8a856f; font-size:13px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="l-wrap">
+    <div class="eyebrow" style="justify-content:center; color:var(--sun-citrus)">CARGILL — PHASE 6</div>
+    <h1>مكتبة المكوّنات</h1>
+    <p>كل مكوّن هنا بيتبع قاعدة التسمية من Phase 5 (c- / is- / l- / u-) من غير استثناء — أول ملف في النظام كله متسق 100% من أول سطر.</p>
+  </div>
+</div>
+
+<div class="l-wrap">
+
+  <section class="l-section">
+    <div class="eyebrow">FORM CONTROLS</div>
+    <h2>عناصر الإدخال الجديدة</h2>
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Checkbox</span>
+        <label class="c-checkbox"><input type="checkbox" checked> فحص الجودة قبل الشحن</label><br>
+        <label class="c-checkbox"><input type="checkbox"> تأمين إضافي على الشحنة</label><br>
+        <label class="c-checkbox is-disabled"><input type="checkbox" disabled> خيار غير متاح</label>
+      </div>
+      <div>
+        <span class="u-label-sm">Radio</span>
+        <label class="c-radio"><input type="radio" name="ship" checked> شحن بحري</label><br>
+        <label class="c-radio"><input type="radio" name="ship"> شحن جوي</label><br>
+        <label class="c-radio is-disabled"><input type="radio" name="ship" disabled> غير متاح لهذه الوجهة</label>
+      </div>
+      <div>
+        <span class="u-label-sm">Switch</span>
+        <label class="c-switch"><input type="checkbox" checked><span class="track"></span></label>
+        <span class="muted" style="display:inline-block; margin-inline-start:8px">تنبيهات فورية مفعّلة</span><br><br>
+        <label class="c-switch"><input type="checkbox" disabled><span class="track"></span></label>
+        <span class="muted" style="display:inline-block; margin-inline-start:8px">Disabled</span>
+      </div>
+    </div>
+    <div class="u-row">
+      <div>
+        <span class="u-label-sm">Textarea — Default / Error</span>
+        <textarea class="c-textarea" placeholder="ملاحظات على الشحنة..."></textarea>
+        <textarea class="c-textarea is-error" style="margin-top:8px">تجاوز الحد المسموح للحروف</textarea>
+        <div class="c-error-msg">النص تجاوز 200 حرف</div>
+      </div>
+      <div>
+        <span class="u-label-sm">Search</span>
+        <div class="c-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+          <input placeholder="بحث بكود الشحنة...">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">ACCORDION</div>
+    <h2>الأكورديون</h2>
+    <div class="c-accordion">
+      <details class="c-accordion-item" open>
+        <summary>مستندات الشحنة المطلوبة</summary>
+        <div class="body">شهادة المنشأ، شهادة الفحص الصحي، فاتورة تجارية، قائمة تعبئة.</div>
+      </details>
+      <details class="c-accordion-item">
+        <summary>شروط الدفع</summary>
+        <div class="body">30% مقدم عند التأكيد، الباقي عند استلام مستندات الشحن.</div>
+      </details>
+      <details class="c-accordion-item">
+        <summary>سياسة الرفض والاستبدال</summary>
+        <div class="body">أي دفعة لا تطابق المواصفة المتفق عليها تُرفض قبل التحميل، مش بعد الوصول.</div>
+      </details>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">OVERLAYS</div>
+    <h2>التنبيهات والنوافذ</h2>
+    <div class="flag">هذا القسم عبارة عن Static Preview لشكل المكوّن ومواصفاته — الربط بمنطق الفتح/الإغلاق الفعلي (JS) بيحصل وقت التطبيق في المنتج، مش جزء من نظام تصميم ثابت.</div>
+
+    <span class="u-label-sm" style="margin-top:var(--space-4); display:block">Toast</span>
+    <div class="u-row" style="margin-top:8px">
+      <div class="c-toast is-success"><span class="dot"></span>تم تأكيد الشحنة CGL-1042</div>
+      <div class="c-toast is-error"><span class="dot"></span>فشل رفع مستند الفحص</div>
+      <div class="c-toast is-info"><span class="dot"></span>تم تحديث موعد الوصول المتوقع</div>
+    </div>
+
+    <span class="u-label-sm" style="margin-top:var(--space-4); display:block">Modal</span>
+    <div class="c-modal-preview" style="margin-top:8px">
+      <div class="c-modal">
+        <div class="c-modal-header">تأكيد رفض الدفعة<span style="color:#847e6a">✕</span></div>
+        <div class="c-modal-body">هترفض 400 كيلو من دفعة الطماطم لعدم مطابقة مقاس الثمرة للمواصفة. الإجراء ده نهائي.</div>
+        <div class="c-modal-footer">
+          <button class="c-btn c-btn--ghost">إلغاء</button>
+          <button class="c-btn c-btn--primary">تأكيد الرفض</button>
+        </div>
+      </div>
+    </div>
+
+    <span class="u-label-sm" style="margin-top:var(--space-4); display:block">Drawer</span>
+    <div class="c-drawer-preview" style="margin-top:8px">
+      <div class="c-drawer">
+        <h3 style="font-size:15px">تفاصيل شحنة CGL-1042</h3>
+        <p class="muted" style="max-width:none">24 طن برتقال بلدي · روتردام · 14 أغسطس</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">APPLICATION SHELL</div>
+    <h2>الهيكل الأساسي للوحة التحكم</h2>
+    <p>ده أول Template فعلي في النظام — كان مذكور في Phase 5 إنه مفقود.</p>
+    <div class="c-shell">
+      <div class="c-topbar">
+        <div class="brand">Cargill</div>
+        <div class="c-search" style="max-width:220px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input placeholder="بحث..."></div>
+        <div class="user">أح</div>
+      </div>
+      <div class="c-shell-body">
+        <div class="c-sidebar">
+          <div class="c-nav-item is-active">الشحنات</div>
+          <div class="c-nav-item">المنتجات</div>
+          <div class="c-nav-item">الفواتير</div>
+          <div class="c-nav-item">المستندات</div>
+          <div class="c-nav-item">الإعدادات</div>
+        </div>
+        <div class="c-content">
+          <h3 style="font-size:16px">لوحة الشحنات</h3>
+          <p class="muted" style="max-width:none">محتوى الصفحة بيتحط هنا حسب القسم المختار من القائمة الجانبية.</p>
+        </div>
+      </div>
+      <div class="c-footer"><span>Cargill © 2026</span><span>الدعم الفني · الشروط والأحكام</span></div>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">STATS &amp; CHARTS</div>
+    <h2>الإحصائيات والرسم البياني</h2>
+    <div class="u-row">
+      <div class="c-stat-card">
+        <div class="label">شحنات هذا الشهر</div>
+        <div class="value">42</div>
+        <div class="trend up">↑ 12% عن الشهر اللي فات</div>
+      </div>
+      <div class="c-stat-card">
+        <div class="label">معدل الرفض</div>
+        <div class="value">3.1%</div>
+        <div class="trend down">↓ 0.8% تحسّن</div>
+      </div>
+      <div class="c-stat-card">
+        <div class="label">متوسط زمن العبور</div>
+        <div class="value">6.2<span style="font-size:14px"> يوم</span></div>
+        <div class="trend up" style="color:#847e6a">مستقر</div>
+      </div>
+    </div>
+    <span class="u-label-sm" style="margin-top:var(--space-5); display:block">Bar Chart — شحنات آخر 6 شهور</span>
+    <div class="c-chart-bars" style="margin-top:24px">
+      <div class="bar" style="height:60%"><span>مارس</span></div>
+      <div class="bar" style="height:75%"><span>أبريل</span></div>
+      <div class="bar" style="height:45%"><span>مايو</span></div>
+      <div class="bar" style="height:90%; background:var(--deep-grove)"><span>يونيو</span></div>
+      <div class="bar" style="height:70%"><span>يوليو</span></div>
+      <div class="bar" style="height:55%"><span>أغسطس</span></div>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">DATE PICKER &amp; UPLOAD</div>
+    <h2>التقويم ورفع الملفات</h2>
+    <div class="u-row">
+      <div class="c-calendar">
+        <div class="cal-head"><span>‹</span><span>أغسطس 2026</span><span>›</span></div>
+        <div class="cal-grid">
+          <div class="cal-day is-muted">س</div><div class="cal-day is-muted">ح</div><div class="cal-day is-muted">ن</div><div class="cal-day is-muted">ث</div><div class="cal-day is-muted">ر</div><div class="cal-day is-muted">خ</div><div class="cal-day is-muted">ج</div>
+          <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div class="cal-day">31</div><div class="cal-day">1</div><div class="cal-day">2</div>
+          <div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div>
+          <div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day is-selected">14</div><div class="cal-day">15</div><div class="cal-day">16</div>
+          <div class="cal-day is-disabled">17</div><div class="cal-day is-disabled">18</div><div class="cal-day">19</div><div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div>
+        </div>
+      </div>
+      <div>
+        <div class="c-upload">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <p style="margin:0; font-size:13.5px">اسحب الملف هنا أو اضغط للاختيار</p>
+          <p class="muted">PDF, JPG — حتى 10MB</p>
+        </div>
+        <div class="c-file-chip"><span>شهادة_الفحص_الصحي.pdf</span><span class="mono">2.4MB</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">FILTERS</div>
+    <h2>شريط الفلاتر</h2>
+    <div class="c-filter-bar">
+      <div class="c-filter-chip is-active">كل الشحنات</div>
+      <div class="c-filter-chip">قيد التحميل</div>
+      <div class="c-filter-chip">في الطريق</div>
+      <div class="c-filter-chip">وصلت</div>
+      <div class="c-filter-chip">مرفوضة</div>
+    </div>
+  </section>
+
+  <section class="l-section">
+    <div class="eyebrow">COVERAGE</div>
+    <h2>إيه اللي اتغطى وإيه اللي لسه</h2>
+    <table>
+      <thead><tr><th>الحالة</th><th>المكوّنات</th></tr></thead>
+      <tbody>
+        <tr><td>✅ مكتمل هنا</td><td style="direction:rtl">Checkbox, Radio, Switch, Textarea, Search, Accordion, Toast, Modal, Drawer, Sidebar, Top Bar, Footer, Stat Card, Bar Chart, Calendar, Upload, Filter Bar</td></tr>
+        <tr><td>⚠️ موجود من Phase 1 (مش معاد بناؤه)</td><td style="direction:rtl">Button, Input, Select, Card, Badge, Tag, Alert, Table, Tabs, Avatar, Progress, Breadcrumb, Pagination, Tooltip</td></tr>
+        <tr><td>❌ لسه محتاج Phase منفصل</td><td style="direction:rtl">Dropdown متعدد المستويات، Rich Charts (خطوط/دائري تفاعلي)، منطق JS الفعلي لكل الـ Overlays</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+<footer class="page-footer">Cargill Component Library · Phase 6 · v1.0</footer>
+</body>
+</html>

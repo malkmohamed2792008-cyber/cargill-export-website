@@ -21,12 +21,12 @@ export default function ProductsCTA() {
             Our export specialists are ready to help you find the perfect products for your market. Contact us today for personalized quotations and product samples.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="btn-gold text-center">
+            <Link href="/contact" className="btn btn-accent text-center">
               Request a Quote
             </Link>
             <Link
               href="/contact"
-              className="btn-secondary bg-white/10 border-white text-white hover:bg-white hover:text-primary text-center"
+              className="btn btn-outline border-white text-white hover:bg-white hover:text-deep-grove text-center"
             >
               Contact Sales
             </Link>

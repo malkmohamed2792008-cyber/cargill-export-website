@@ -8,9 +8,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-primary-dark text-white">
+    <footer className="bg-deep-grove-900 text-white">
       {/* Main Footer */}
-      <div className="section bg-primary-dark">
+      <div className="section bg-deep-grove-900">
         <div className="container-main">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
             {/* Company Info */}
@@ -31,7 +31,7 @@ export default function Footer() {
                   href={companyInfo.socialMedia.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:text-primary-dark transition-all duration-300"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-sun-citrus hover:text-deep-grove-900 transition-all duration-300"
                   aria-label="Facebook"
                 >
                   <FaFacebookF />
@@ -40,7 +40,7 @@ export default function Footer() {
                   href={companyInfo.socialMedia.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:text-primary-dark transition-all duration-300"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-sun-citrus hover:text-deep-grove-900 transition-all duration-300"
                   aria-label="LinkedIn"
                 >
                   <FaLinkedinIn />
@@ -49,7 +49,7 @@ export default function Footer() {
                   href={companyInfo.socialMedia.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:text-primary-dark transition-all duration-300"
+                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-sun-citrus hover:text-deep-grove-900 transition-all duration-300"
                   aria-label="Instagram"
                 >
                   <FaInstagram />
@@ -59,13 +59,13 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div className="space-y-6">
-              <h3 className="font-heading text-xl font-semibold text-accent">Quick Links</h3>
+              <h3 className="font-heading text-xl font-semibold text-sun-citrus">Quick Links</h3>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-white/70 hover:text-accent transition-colors duration-200"
+                      className="text-white/70 hover:text-sun-citrus transition-colors duration-200"
                     >
                       {link.label}
                     </Link>
@@ -76,13 +76,13 @@ export default function Footer() {
 
             {/* Services */}
             <div className="space-y-6">
-              <h3 className="font-heading text-xl font-semibold text-accent">Our Services</h3>
+              <h3 className="font-heading text-xl font-semibold text-sun-citrus">Our Services</h3>
               <ul className="space-y-3">
                 {services.slice(0, 4).map((service) => (
                   <li key={service.id}>
                     <Link
                       href="/services"
-                      className="text-white/70 hover:text-accent transition-colors duration-200"
+                      className="text-white/70 hover:text-sun-citrus transition-colors duration-200"
                     >
                       {service.title}
                     </Link>
@@ -93,32 +93,32 @@ export default function Footer() {
 
             {/* Contact Info */}
             <div className="space-y-6">
-              <h3 className="font-heading text-xl font-semibold text-accent">Contact Us</h3>
+              <h3 className="font-heading text-xl font-semibold text-sun-citrus">Contact Us</h3>
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <FaMapMarkerAlt className="text-accent mt-1 flex-shrink-0" />
+                  <FaMapMarkerAlt className="text-sun-citrus mt-1 flex-shrink-0" />
                   <span className="text-white/70">{companyInfo.address}</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <FaPhone className="text-accent flex-shrink-0" />
-                  <a href={`tel:${companyInfo.phone}`} className="text-white/70 hover:text-accent transition-colors duration-200">
+                  <FaPhone className="text-sun-citrus flex-shrink-0" />
+                  <a href={`tel:${companyInfo.phone}`} className="text-white/70 hover:text-sun-citrus transition-colors duration-200">
                     {companyInfo.phone}
                   </a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <FaWhatsapp className="text-accent flex-shrink-0" />
-                  <a href={`https://wa.me/${companyInfo.whatsapp.replace(/\D/g, "")}`} className="text-white/70 hover:text-accent transition-colors duration-200">
+                  <FaWhatsapp className="text-sun-citrus flex-shrink-0" />
+                  <a href={`https://wa.me/${companyInfo.whatsapp.replace(/\D/g, "")}`} className="text-white/70 hover:text-sun-citrus transition-colors duration-200">
                     {companyInfo.whatsapp}
                   </a>
                 </li>
                 <li className="flex items-center gap-3">
-                  <FaEnvelope className="text-accent flex-shrink-0" />
-                  <a href={`mailto:${companyInfo.email}`} className="text-white/70 hover:text-accent transition-colors duration-200">
+                  <FaEnvelope className="text-sun-citrus flex-shrink-0" />
+                  <a href={`mailto:${companyInfo.email}`} className="text-white/70 hover:text-sun-citrus transition-colors duration-200">
                     {companyInfo.email}
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
-                  <FaClock className="text-accent mt-1 flex-shrink-0" />
+                  <FaClock className="text-sun-citrus mt-1 flex-shrink-0" />
                   <span className="text-white/70">{companyInfo.businessHours}</span>
                 </li>
               </ul>
@@ -135,10 +135,10 @@ export default function Footer() {
               © {currentYear} {companyInfo.name}. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-white/50">
-              <Link href="/contact" className="hover:text-accent transition-colors duration-200">
+              <Link href="/contact" className="hover:text-sun-citrus transition-colors duration-200">
                 Privacy Policy
               </Link>
-              <Link href="/contact" className="hover:text-accent transition-colors duration-200">
+              <Link href="/contact" className="hover:text-sun-citrus transition-colors duration-200">
                 Terms of Service
               </Link>
             </div>
