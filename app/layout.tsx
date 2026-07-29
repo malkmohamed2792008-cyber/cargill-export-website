@@ -84,6 +84,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${fraunces.variable} ${cairo.variable} ${ibmPlexMono.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#0F172A" />
+      </head>
       <body className="min-h-screen flex flex-col bg-paper-husk text-ink">
         <Header />
         <main className="flex-grow">{children}</main>
