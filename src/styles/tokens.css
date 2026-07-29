@@ -1,0 +1,136 @@
+:root{
+  --deep-grove:#263D2C; --fresh-leaf:#6B8E4E; --sun-citrus:#E2932E; --crate-brown:#8B5E34;
+  --paper-husk:#F6F1E4; --ink:#211F1A; --stone:#DCD5C0; --stone-dark:#B9AF92; --white:#FFFDF8; --danger:#B6472F;
+  --info:#4E6B7D;
+  --radius-m:10px; --space-2:8px; --space-3:16px; --space-4:24px; --space-5:40px; --space-6:64px;
+}
+
+/* Design tokens - full set from Cargill design tokens */
+:root{
+  /* ===== BRAND COLORS ===== */
+  /* Primary - Deep Grove */
+  --deep-grove: #263D2C;
+  --deep-grove-50: #F3F7F4;
+  --deep-grove-100: #E4EDE6;
+  --deep-grove-200: #CADECF;
+  --deep-grove-300: #A7C8B0;
+  --deep-grove-400: #81B18E;
+  --deep-grove-500: #5E976D;
+  --deep-grove-600: #4A7756;
+  --deep-grove-700: #3B5E44;
+  --deep-grove-800: #263D2C;
+  --deep-grove-900: #1A2B1F;
+
+  /* Secondary - Fresh Leaf */
+  --fresh-leaf: #6B8E4E;
+  --fresh-leaf-50: #F5F7F2;
+  --fresh-leaf-100: #E8EEE2;
+  --fresh-leaf-200: #D2E0C7;
+  --fresh-leaf-300: #B6CCA3;
+  --fresh-leaf-400: #96B77B;
+  --fresh-leaf-500: #6B8E4E;
+  --fresh-leaf-600: #5E7D45;
+  --fresh-leaf-700: #4A6336;
+  --fresh-leaf-800: #374828;
+  --fresh-leaf-900: #25321B;
+
+  /* Accent - Sun Citrus */
+  --sun-citrus: #E2932E;
+  --sun-citrus-50: #FBF6EE;
+  --sun-citrus-100: #F7EAD9;
+  --sun-citrus-200: #F4D8B3;
+  --sun-citrus-300: #EEBE82;
+  --sun-citrus-400: #E6A24C;
+  --sun-citrus-500: #E2932E;
+  --sun-citrus-600: #AA6A18;
+  --sun-citrus-700: #865413;
+  --sun-citrus-800: #633D0E;
+  --sun-citrus-900: #452A08;
+
+  /* Neutral */
+  --crate-brown: #8B5E34;
+  --paper-husk: #F6F1E4;
+  --ink: #211F1A;
+  --stone: #DCD5C0;
+  --stone-dark: #B9AF92;
+  --white: #FFFDF8;
+
+  /* Semantic Colors */
+  --danger: #B6472F;
+  --danger-light: #FBE8E2;
+  --success: #6B8E4E;
+  --success-light: #EEF4E6;
+  --warning: #E2932E;
+  --warning-light: #FDF1DD;
+  --info: #4E6B7D;
+  --info-light: #E8EEF2;
+
+  /* Aliases for compatibility */
+  --primary: var(--deep-grove);
+  --primary-hover: #1A2B1F;
+  --secondary: var(--fresh-leaf);
+  --accent: var(--sun-citrus);
+  --accent-hover: #C77D1E;
+
+  /* Background & Surface */
+  --background: var(--paper-husk);
+  --surface: var(--white);
+
+  /* Text */
+  --text: var(--ink);
+  --text-muted: #6b6656;
+  --text-light: #847e6a;
+
+  /* Borders */
+  --border: var(--stone);
+  --border-strong: var(--stone-dark);
+
+  /* Disabled */
+  --disabled-bg: var(--stone);
+  --disabled-text: #a29c86;
+
+  /* Focus */
+  --focus: var(--fresh-leaf);
+
+  /* ===== SPACING ===== */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-2h: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-4h: 32px;
+  --space-5: 40px;
+  --space-5h: 48px;
+  --space-6: 64px;
+  --space-6h: 80px;
+  --space-7: 96px;
+  --space-8: 128px;
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-xs: 2px;
+  --radius-s: 4px;
+  --radius-m: 10px;
+  --radius-l: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+  --radius-full: 9999px;
+
+  /* ===== SHADOWS ===== */
+  --shadow-xs: 0 1px 2px rgba(33, 31, 26, 0.06);
+  --shadow-sm: 0 2px 6px rgba(33, 31, 26, 0.08);
+  --shadow-md: 0 6px 16px rgba(33, 31, 26, 0.10);
+  --shadow-lg: 0 14px 32px rgba(33, 31, 26, 0.14);
+  --shadow-xl: 0 28px 56px rgba(33, 31, 26, 0.18);
+  --shadow-card: 0 4px 14px rgba(38, 61, 44, 0.10);
+  --shadow-modal: 0 24px 64px rgba(33, 31, 26, 0.28);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Dark mode token adjustments per design system guidance */
+  :root{
+    --background: #16241A;
+    --surface: #1E3024;
+    --text: #EDE7D6;
+    --color-primary: #8FB08A; /* use lighter primary in dark */
+  }
+}
