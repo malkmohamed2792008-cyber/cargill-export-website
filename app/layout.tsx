@@ -3,7 +3,7 @@ import { Fraunces, Cairo, IBM_Plex_Mono } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/layout/Header"
 import Footer from "@/components/layout/Footer"
-import WhatsAppButton from "@/components/whatsapp/WhatsAppButton"
+import WhatsAppButton from "@/components/ui/WhatsAppButton"
 import ScrollToTop from "@/components/ui/ScrollToTop"
 import { seoData } from "@/lib/data"
 
