@@ -7,9 +7,13 @@ import { heroData } from "@/lib/data"
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-deep-grove">
+    <section
+      role="region"
+      aria-label="Hero"
+      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-deep-grove"
+    >
       {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" aria-hidden>
         <Image
           src={heroData.backgroundImage}
           alt="Hero Background"
@@ -47,10 +51,14 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Link href="/contact" className="btn btn-accent text-center">
+            <Link href="/contact" className="btn btn-accent text-center" aria-label="Request a Quote">
               Request a Quote
             </Link>
-            <Link href="/contact" className="btn btn-outline bg-white/10 border-white text-white hover:bg-white hover:text-deep-grove text-center">
+            <Link
+              href="/contact"
+              className="btn btn-outline bg-white/10 border-white text-white hover:bg-white hover:text-deep-grove text-center"
+              aria-label="Contact Sales"
+            >
               Contact Sales
             </Link>
           </motion.div>
