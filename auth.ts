@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { getPrismaClient } from "@/lib/prisma"
 import bcrypt from "bcryptjs"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -16,6 +15,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null
         }
 
+        // Delay importing Prisma until authorize is called (avoids loading server-only
+        // native modules during middleware/edge evaluations).
+        const { getPrismaClient } = await import("@/lib/prisma")
         const prisma = getPrismaClient()
         if (!prisma) {
           return null
@@ -66,4 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: "jwt",
   },
+  // Explicit secret is required by NextAuth v5. Read from environment.
+  // The variable name used by NextAuth and in this project is NEXTAUTH_SECRET.
+  secret: process.env.NEXTAUTH_SECRET,
 })
