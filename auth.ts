@@ -1,8 +1,9 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { getPrismaClient } from "@/lib/prisma"
-import { loginSchema } from "@/lib/validation/auth"
 import { isUserRole } from "@/lib/auth/roles"
+import { loginSchema } from "@/lib/validation/auth"
+import { checkRateLimit } from "@/lib/security/rate-limit"
 import bcrypt from "bcryptjs"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -19,13 +20,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null
         }
 
+        const email = parsed.data.email.toLowerCase()
+        const rate = await checkRateLimit(`login:${email}`)
+        if (!rate.success) {
+          return null
+        }
+
         const prisma = getPrismaClient()
         if (!prisma) {
           return null
         }
 
         const admin = await prisma.admin.findUnique({
-          where: { email: parsed.data.email.toLowerCase() },
+          where: { email },
         })
 
         if (!admin || !admin.isActive || !isUserRole(admin.role)) {
