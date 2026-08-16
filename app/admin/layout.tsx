@@ -1,5 +1,4 @@
-import { auth } from "@/auth"
-import { redirect } from "next/navigation"
+import { requireSession } from "@/lib/auth/guards"
 import Link from "next/link"
 import { FiHome, FiPackage, FiLayers, FiAward, FiGlobe, FiFileText, FiMail, FiSettings, FiLogOut } from "react-icons/fi"
 
@@ -19,20 +18,16 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
-
-  if (!session) {
-    redirect("/admin/login")
-  }
-
-  const pathname = "/admin"
+  const { session, role } = await requireSession()
 
   return (
     <div className="c-shell">
-      {/* Topbar */}
       <div className="c-topbar">
         <div className="brand">Cargill</div>
         <div style={{ flex: 1 }} />
+        <span style={{ fontSize: "12px", color: "var(--text-muted)", marginRight: "16px" }}>
+          {role}
+        </span>
         <Link
           href="/"
           style={{ fontSize: "14px", color: "var(--text-muted)", textDecoration: "none" }}
@@ -41,22 +36,19 @@ export default async function AdminLayout({
         </Link>
       </div>
 
-      {/* Shell Body */}
       <div className="c-shell-body">
-        {/* Sidebar */}
         <div className="c-sidebar">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`c-nav-item ${pathname === item.href ? "is-active" : ""}`}
+              className="c-nav-item"
             >
               <item.icon style={{ width: "16px", height: "16px" }} />
               {item.label}
             </Link>
           ))}
 
-          {/* User Section */}
           <div style={{ marginTop: "auto", paddingTop: "16px", borderTop: "1px solid rgba(255,255,255,0.1)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px", marginBottom: "8px" }}>
               <div
@@ -97,13 +89,11 @@ export default async function AdminLayout({
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="c-content">
           {children}
         </div>
       </div>
 
-      {/* Footer */}
       <div className="c-footer">
         <span>Cargill © 2026</span>
         <span>الدعم الفني · الشروط والأحكام</span>
