@@ -48,15 +48,34 @@ export default function ContactForm({ fields }: ContactFormProps) {
     setErrorMessage("")
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name || "",
+          email: formData.email || "",
+          phone: formData.phone || "",
+          company: formData.company || "",
+          subject: formData.subject || "",
+          message: formData.message || "",
+          website: formData.website || "",
+        }),
+      })
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormData({})
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message")
+      }
 
-    // Reset after showing success message
-    setTimeout(() => setIsSubmitted(false), 5000)
+      setIsSubmitted(true)
+      setFormData({})
+      setTimeout(() => setIsSubmitted(false), 5000)
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : "Failed to send message")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (isSubmitted) {

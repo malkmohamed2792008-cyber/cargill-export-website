@@ -1,56 +1,47 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
-// Lightweight middleware that avoids importing server-only modules (Prisma/NextAuth)
-// to prevent loading native node modules (e.g. node:util/types) in the Edge runtime.
-// It uses the presence of NextAuth cookies as a heuristic for an authenticated session.
+/**
+ * Edge-safe middleware: does not import Prisma/NextAuth (avoids native Node modules).
+ * Session presence is detected only via Auth.js v5 session-token cookies
+ * (never csrf-token or callback-url).
+ * Real auth + RBAC remain in server layouts and /api/admin handlers.
+ */
+function hasAuthJsSessionCookie(req: NextRequest): boolean {
+  const cookies = req.cookies.getAll()
+  for (const cookie of cookies) {
+    const name = cookie.name
+    if (
+      name === "authjs.session-token" ||
+      name === "__Secure-authjs.session-token" ||
+      name.startsWith("authjs.session-token.") ||
+      name.startsWith("__Secure-authjs.session-token.")
+    ) {
+      return Boolean(cookie.value)
+    }
+  }
+  return false
+}
 
 export default function middleware(req: NextRequest) {
-  const isOnAdmin = req.nextUrl.pathname.startsWith("/admin")
-  const isOnLogin = req.nextUrl.pathname.startsWith("/admin/login")
-  const isOnApi = req.nextUrl.pathname.startsWith("/api")
+  const pathname = req.nextUrl.pathname
+  const isOnLogin = pathname === "/admin/login" || pathname.startsWith("/admin/login/")
+  const isLoggedIn = hasAuthJsSessionCookie(req)
 
-  // Allow public API routes
-  if (isOnApi) {
-    return NextResponse.next()
-  }
+  const requestHeaders = new Headers(req.headers)
+  requestHeaders.set("x-pathname", pathname)
 
-  // Very small, safe heuristic: check for common NextAuth session cookie names.
-  // This avoids importing NextAuth/Prisma inside middleware (which causes native module loads).
-  const cookieNames = [
-    "next-auth.session-token",
-    "__Secure-next-auth.session-token",
-    "next-auth.callback-url",
-    "next-auth.csrf-token",
-    "next-auth.total-token",
-    "next-auth.session"
-  ]
-
-  let isLoggedIn = false
-  try {
-    for (const name of cookieNames) {
-      const c = req.cookies.get(name)
-      if (c) {
-        isLoggedIn = true
-        break
-      }
-    }
-  } catch (e) {
-    // ignore and treat as not logged in
-    isLoggedIn = false
-  }
-
-  // Redirect unauthenticated users to login for admin routes
-  if (isOnAdmin && !isLoggedIn && !isOnLogin) {
+  if (pathname.startsWith("/admin") && !isLoggedIn && !isOnLogin) {
     return NextResponse.redirect(new URL("/admin/login", req.url))
   }
 
-  // Redirect authenticated users away from login
   if (isOnLogin && isLoggedIn) {
     return NextResponse.redirect(new URL("/admin", req.url))
   }
 
-  return NextResponse.next()
+  return NextResponse.next({
+    request: { headers: requestHeaders },
+  })
 }
 
 export const config = {

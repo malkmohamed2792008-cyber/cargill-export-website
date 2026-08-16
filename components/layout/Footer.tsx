@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaWhatsapp, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock } from "react-icons/fa"
 import { companyInfo, quickLinks, services } from "@/lib/data"
 

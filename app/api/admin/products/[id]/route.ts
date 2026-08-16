@@ -1,16 +1,13 @@
 import { NextResponse } from "next/server"
-import { auth } from "@/auth"
 import { getPrismaClient } from "@/lib/prisma"
+import { ADMIN_ONLY_ROLES, ALL_ADMIN_ROLES, CONTENT_WRITE_ROLES, requireAdminAuth } from "@/lib/admin-auth"
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(ALL_ADMIN_ROLES)
+  if (gate.error) return gate.error
 
   const { id } = await params
   const prisma = getPrismaClient()
@@ -50,11 +47,8 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(CONTENT_WRITE_ROLES)
+  if (gate.error) return gate.error
 
   const { id } = await params
   const prisma = getPrismaClient()
@@ -83,13 +77,11 @@ export async function PUT(
       exportedTo,
     } = body
 
-    // Check if product exists
     const existing = await prisma.product.findUnique({ where: { id } })
     if (!existing) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 })
     }
 
-    // Check for duplicate slug (excluding current product)
     const duplicate = await prisma.product.findFirst({
       where: { slug, NOT: { id } },
     })
@@ -97,7 +89,6 @@ export async function PUT(
       return NextResponse.json({ error: "A product with this slug already exists" }, { status: 400 })
     }
 
-    // Update product
     const product = await prisma.product.update({
       where: { id },
       data: {
@@ -113,7 +104,6 @@ export async function PUT(
       },
     })
 
-    // Update specification - delete and recreate
     await prisma.productSpecification.deleteMany({ where: { productId: id } })
     if (specification) {
       await prisma.productSpecification.create({
@@ -145,7 +135,6 @@ export async function PUT(
       })
     }
 
-    // Update export season
     await prisma.productExportSeason.deleteMany({ where: { productId: id } })
     if (exportSeason && exportSeason.availableMonths?.length) {
       await prisma.productExportSeason.create({
@@ -158,7 +147,6 @@ export async function PUT(
       })
     }
 
-    // Update packaging
     await prisma.productPackaging.deleteMany({ where: { productId: id } })
     if (packaging && packaging.length > 0 && packaging[0].type) {
       await prisma.productPackaging.createMany({
@@ -171,7 +159,6 @@ export async function PUT(
       })
     }
 
-    // Update carton specification
     await prisma.productCartonSpecification.deleteMany({ where: { productId: id } })
     if (cartonSpec && cartonSpec.cartonSize) {
       await prisma.productCartonSpecification.create({
@@ -187,7 +174,6 @@ export async function PUT(
       })
     }
 
-    // Update storage
     await prisma.productStorage.deleteMany({ where: { productId: id } })
     if (storage && storage.storageTemperature) {
       await prisma.productStorage.create({
@@ -202,7 +188,6 @@ export async function PUT(
       })
     }
 
-    // Update exported countries
     await prisma.productExportCountry.deleteMany({ where: { productId: id } })
     if (exportedTo && exportedTo.length > 0) {
       await prisma.productExportCountry.createMany({
@@ -218,5 +203,34 @@ export async function PUT(
   } catch (error) {
     console.error("Error updating product:", error)
     return NextResponse.json({ error: "Failed to update product" }, { status: 500 })
+  }
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const gate = await requireAdminAuth(ADMIN_ONLY_ROLES)
+  if (gate.error) return gate.error
+
+  const { id } = await params
+  const prisma = getPrismaClient()
+
+  if (!prisma) {
+    return NextResponse.json({ error: "Database not available" }, { status: 500 })
+  }
+
+  try {
+    const existing = await prisma.product.findUnique({ where: { id } })
+    if (!existing) {
+      return NextResponse.json({ error: "Product not found" }, { status: 404 })
+    }
+
+    await prisma.product.delete({ where: { id } })
+
+    return NextResponse.json({ success: true, message: "Product deleted successfully" })
+  } catch (error) {
+    console.error("Error deleting product:", error)
+    return NextResponse.json({ error: "Failed to delete product" }, { status: 500 })
   }
 }

@@ -36,7 +36,7 @@ export default function ProductCard({
     : "bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 group-hover:border-primary/30"
 
   return (
-    <Link href={href} className={`group block ${className}`}>
+    <Link href={href} className={`group block focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-4 rounded-2xl ${className}`}>
       <div className={wrapperClasses}>
         <div className="relative h-48 overflow-hidden">
           <Image

@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Link from "next/link"
-import { FiArrowLeft, FiSave, FiLoader, FiPlus, FiTrash2 } from "react-icons/fi"
+import { FiArrowLeft, FiSave, FiLoader, FiPlus, FiTrash2, FiUploadCloud } from "react-icons/fi"
+import MediaPickerModal from "@/components/admin/MediaPickerModal"
 
 interface Category {
   id: string
@@ -159,6 +160,7 @@ export default function ProductFormPage() {
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(isEdit)
   const [error, setError] = useState("")
+  const [isMediaPickerOpen, setIsMediaPickerOpen] = useState(false)
   const [formData, setFormData] = useState<ProductFormData>(initialFormData)
 
   useEffect(() => {
@@ -399,13 +401,46 @@ export default function ProductFormPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Image URL
+                Product Main Image
               </label>
-              <input
-                type="url"
-                value={formData.imageUrl}
-                onChange={(e) => setFormData((prev) => ({ ...prev, imageUrl: e.target.value }))}
-                className="w-full px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="URL or select from library..."
+                  value={formData.imageUrl}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, imageUrl: e.target.value }))}
+                  className="w-full px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsMediaPickerOpen(true)}
+                  className="px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-2 whitespace-nowrap"
+                >
+                  <FiUploadCloud /> Pick / Upload
+                </button>
+              </div>
+
+              {formData.imageUrl && (
+                <div className="mt-3 flex items-center gap-3">
+                  <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 flex-shrink-0">
+                    <img
+                      src={formData.imageUrl}
+                      alt="Product preview"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        ;(e.target as HTMLElement).style.display = "none"
+                      }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-500">Selected main product image preview</span>
+                </div>
+              )}
+
+              <MediaPickerModal
+                isOpen={isMediaPickerOpen}
+                onClose={() => setIsMediaPickerOpen(false)}
+                onSelect={(url) => setFormData((prev) => ({ ...prev, imageUrl: url }))}
+                folder="products"
               />
             </div>
             <div className="flex items-center gap-6 pt-6">

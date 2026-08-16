@@ -1,7 +1,9 @@
 import { signOut } from "@/auth"
 import { NextResponse } from "next/server"
+import { getAppOrigin } from "@/lib/app-url"
 
-export async function POST() {
+export async function POST(request: Request) {
   await signOut({ redirect: false })
-  return NextResponse.redirect(new URL("/admin/login", "http://localhost:3000"))
+  const origin = getAppOrigin(request)
+  return NextResponse.redirect(new URL("/admin/login", origin))
 }

@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server"
-import { auth } from "@/auth"
 import { getPrismaClient } from "@/lib/prisma"
+import { ALL_ADMIN_ROLES, CONTENT_WRITE_ROLES, requireAdminAuth } from "@/lib/admin-auth"
 
 export async function GET(request: Request) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(ALL_ADMIN_ROLES)
+  if (gate.error) return gate.error
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get("id")
@@ -50,11 +47,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(CONTENT_WRITE_ROLES)
+  if (gate.error) return gate.error
 
   const prisma = getPrismaClient()
 
@@ -163,7 +157,7 @@ export async function POST(request: Request) {
                 cartonsPerPallet: cartonSpec.cartonsPerPallet,
               },
             }
-            : undefined,
+          : undefined,
         storage: storage?.storageTemperature
           ? {
               create: {

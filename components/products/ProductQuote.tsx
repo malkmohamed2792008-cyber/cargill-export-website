@@ -43,11 +43,35 @@ export default function ProductQuote({ product }: ProductQuoteProps) {
 
     setIsLoading(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const response = await fetch("/api/quotes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product.id,
+          productName: product.name,
+          name: formData.name,
+          company: formData.company,
+          country: formData.country,
+          email: formData.email,
+          phone: formData.phone,
+          quantity: formData.quantity,
+          packaging: formData.packaging,
+          message: formData.message,
+        }),
+      })
 
-    setIsLoading(false)
-    setIsSubmitted(true)
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit quote request")
+      }
+
+      setIsSubmitted(true)
+    } catch {
+      // Keep form visible so the user can retry; preserve existing UI.
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const packagingOptions = product.packaging.map((p) => p.type)

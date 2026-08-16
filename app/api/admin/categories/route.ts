@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server"
-import { auth } from "@/auth"
 import { getPrismaClient } from "@/lib/prisma"
+import { ADMIN_ONLY_ROLES, ALL_ADMIN_ROLES, CONTENT_WRITE_ROLES, requireAdminAuth } from "@/lib/admin-auth"
 
 export async function GET(request: Request) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(ALL_ADMIN_ROLES)
+  if (gate.error) return gate.error
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get("id")
@@ -94,11 +91,8 @@ export async function GET(request: Request) {
 
 // Create category or subcategory
 export async function POST(request: Request) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(CONTENT_WRITE_ROLES)
+  if (gate.error) return gate.error
 
   const prisma = getPrismaClient()
 
@@ -164,11 +158,8 @@ export async function POST(request: Request) {
 
 // Update category or subcategory
 export async function PUT(request: Request) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(CONTENT_WRITE_ROLES)
+  if (gate.error) return gate.error
 
   const prisma = getPrismaClient()
 
@@ -252,11 +243,8 @@ export async function PUT(request: Request) {
 
 // Delete category or subcategory
 export async function DELETE(request: Request) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  const gate = await requireAdminAuth(ADMIN_ONLY_ROLES)
+  if (gate.error) return gate.error
 
   const { searchParams } = new URL(request.url)
   const id = searchParams.get("id")

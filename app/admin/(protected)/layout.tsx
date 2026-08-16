@@ -1,16 +1,17 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { FiHome, FiPackage, FiLayers, FiAward, FiGlobe, FiFileText, FiMail, FiSettings, FiLogOut } from "react-icons/fi"
+import { FiHome, FiPackage, FiLayers, FiImage, FiAward, FiGlobe, FiFileText, FiMail, FiSettings, FiLogOut } from "react-icons/fi"
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: FiHome },
   { href: "/admin/products", label: "Products", icon: FiPackage },
   { href: "/admin/categories", label: "Categories", icon: FiLayers },
+  { href: "/admin/media", label: "Media Library", icon: FiImage },
   { href: "/admin/certifications", label: "Certifications", icon: FiAward },
   { href: "/admin/markets", label: "Export Markets", icon: FiGlobe },
-  { href: "/admin/quotes", label: "Quote Requests", icon: FiFileText },
-  { href: "/admin/messages", label: "Messages", icon: FiMail },
+  { href: "/admin/inquiries?type=quote", label: "Quote Requests", icon: FiFileText },
+  { href: "/admin/inquiries?type=message", label: "Messages", icon: FiMail },
   { href: "/admin/settings", label: "Settings", icon: FiSettings },
 ]
 
@@ -25,7 +26,7 @@ export default async function AdminLayout({
     redirect("/admin/login")
   }
 
-  const pathname = "/admin"
+  const activePath = "/admin"
 
   return (
     <div className="c-shell">
@@ -49,7 +50,7 @@ export default async function AdminLayout({
             <Link
               key={item.href}
               href={item.href}
-              className={`c-nav-item ${pathname === item.href ? "is-active" : ""}`}
+              className={`c-nav-item ${activePath === item.href ? "is-active" : ""}`}
             >
               <item.icon style={{ width: "16px", height: "16px" }} />
               {item.label}

@@ -90,7 +90,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-paper-husk text-ink">
         <Header />
-        <main className="flex-grow">{children}</main>
+        <main id="main-content" className="flex-grow">{children}</main>
         <Footer />
         <WhatsAppButton />
         <ScrollToTop />

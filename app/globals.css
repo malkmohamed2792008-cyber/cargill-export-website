@@ -1626,3 +1626,70 @@ h1, h2, h3, h4, h5, h6 {
 .c-calendar .cal-day.is-muted {
   color: var(--stone-dark);
 }
+
+/* ===== UI/UX & ACCESSIBILITY ENHANCEMENTS ===== */
+
+/* 1. Global Focus Visible Rings */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid var(--fresh-leaf) !important;
+  outline-offset: 2px !important;
+}
+
+/* 2. Disabled Form & Button States */
+.btn:disabled,
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+}
+
+/* 3. Responsive Table Wrapper (Prevents Horizontal Page Overflow) */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-m, 8px);
+  margin-bottom: 1rem;
+}
+
+/* 4. Smooth Card Micro-Interactions */
+.c-card-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.c-card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -8px rgba(38, 61, 44, 0.12);
+}
+
+/* 5. RTL Flip Helpers for Icons & Layout */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 768px) {
+  .c-shell-body {
+    flex-direction: column;
+  }
+  .c-sidebar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .c-nav-item {
+    margin-bottom: 0;
+  }
+}
+

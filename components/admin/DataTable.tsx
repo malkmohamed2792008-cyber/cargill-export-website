@@ -31,7 +31,7 @@ export default function DataTable<T>({
   emptyMessage = "No data found",
 }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto">
+    <div className="table-responsive overflow-x-auto">
       <table className="table">
         <thead>
           <tr>
@@ -119,6 +119,7 @@ export function TablePagination({
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
           className="page-btn"
+          aria-label="Previous page"
         >
           <FiChevronLeft style={{ width: "16px", height: "16px" }} />
         </button>
@@ -138,6 +139,8 @@ export function TablePagination({
               key={pageNum}
               onClick={() => onPageChange(pageNum)}
               className={`page-btn ${page === pageNum ? "active" : ""}`}
+              aria-label={`Page ${pageNum}`}
+              aria-current={page === pageNum ? "page" : undefined}
             >
               {pageNum}
             </button>
@@ -147,6 +150,7 @@ export function TablePagination({
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
           className="page-btn"
+          aria-label="Next page"
         >
           <FiChevronRight style={{ width: "16px", height: "16px" }} />
         </button>

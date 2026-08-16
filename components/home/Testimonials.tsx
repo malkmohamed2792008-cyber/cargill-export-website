@@ -25,7 +25,7 @@ export default function Testimonials() {
         >
           <span className="text-secondary font-medium uppercase tracking-wider text-sm">Testimonials</span>
           <h2 className="font-heading text-3xl md:text-4xl font-bold text-primary mt-2 mb-4">What Our Clients Say</h2>
-          <p className="text-foreground-secondary">We value long-term partnerships and take pride in our clients' success.</p>
+          <p className="text-foreground-secondary">We value long-term partnerships and take pride in our clients&apos; success.</p>
         </motion.div>
 
         {/* Testimonials Grid */}

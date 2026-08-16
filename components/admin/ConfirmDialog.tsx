@@ -1,7 +1,5 @@
 "use client"
 
-import { FiAlertTriangle } from "react-icons/fi"
-
 interface ConfirmDialogProps {
   open: boolean
   title: string

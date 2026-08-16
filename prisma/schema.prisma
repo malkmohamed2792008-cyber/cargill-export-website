@@ -239,3 +239,19 @@ model SeoSettings {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model MediaAsset {
+  id           String   @id @default(cuid())
+  filename     String
+  originalName String
+  url          String
+  mimeType     String
+  size         Int
+  width        Int?
+  height       Int?
+  altText      String?
+  folder       String   @default("general")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
