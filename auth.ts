@@ -1,6 +1,8 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { getPrismaClient } from "@/lib/prisma"
+import { loginSchema } from "@/lib/validation/auth"
+import { isUserRole } from "@/lib/auth/roles"
 import bcrypt from "bcryptjs"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -12,7 +14,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        const parsed = loginSchema.safeParse(credentials)
+        if (!parsed.success) {
           return null
         }
 
@@ -22,15 +25,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         const admin = await prisma.admin.findUnique({
-          where: { email: credentials.email as string },
+          where: { email: parsed.data.email.toLowerCase() },
         })
 
-        if (!admin || !admin.isActive) {
+        if (!admin || !admin.isActive || !isUserRole(admin.role)) {
           return null
         }
 
-        const isValid = await bcrypt.compare(credentials.password as string, admin.password)
-
+        const isValid = await bcrypt.compare(parsed.data.password, admin.password)
         if (!isValid) {
           return null
         }
@@ -46,16 +48,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
+      if (user && isUserRole((user as { role?: unknown }).role)) {
         token.id = user.id
-        token.role = (user as { role?: string }).role
+        token.role = (user as { role: string }).role
       }
       return token
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (session.user && isUserRole(token.role)) {
         session.user.id = token.id as string
-        session.user.role = token.role as string
+        session.user.role = token.role
       }
       return session
     },
